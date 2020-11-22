@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Autentification</title>
+    <!-- Bootstrap CSS -->
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+</head>
+<body>
+    <div class="entête container-fluid" style="background-color: #fbe4ce  ; height:100px">
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2" style="background-color: #fef9e7 ; height:1080px">
+              </div>
+            <div class="col-10" style="background-color:   #fdfefe;height:1080px">
+                <form>
+                    <div class="form-group">
+                      <label for="paperID">Paper ID</label>
+                      <input type="text" class="form-control" id="paperID">
+                    </div>
+                    <div class="form-group">
+                      <label for="paperFaceValue">Paper Face value</label>
+                      <input type="text" class="form-control" id="paperFaceValue">
+                    </div>
+                    <div class="form-group">
+                      <label for="paperIssuer">Issuer</label>
+                      <input type="text" class="form-control" id="paperIssuer">
+                    </div>
+                    <button id="SubmitInfo" class="btn btn-outline-primary">Submit</button>
+                  </form>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <form>
+                    <button type="button" class="check btn-outline-primary">Vérifier le registre</button>
+                    <button type="button" class="create btn-outline-primary">Créer un asset</button>
+                    <button type="button" class="update btn-outline-primary">Modifier un asset</button>
+                  </form>
+              </div>
+        </div>
+    </div>
+</body>
+<script src="javascripts/button.js"></script>
+</html>
