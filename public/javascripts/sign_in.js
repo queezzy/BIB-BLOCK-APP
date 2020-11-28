@@ -7,23 +7,24 @@ button[0].addEventListener('click', function(e) {
 
 
 
-submitMyIssue = (e) => {
+Try_authentification = (e) => {
 
   e.preventDefault();
-  const paper = { 
-    paperID: $("#paperID").val(),
-    paperIssuer: $("#paperIssuer").val(), 
-    paperFaceValue: $("#paperFaceValue").val() }
-
+  const ID = { 
+    userName: $("#inputEmail").val(),
+    userPass: $("#inputPassword").val(), 
+   }
+  
+  console.log(ID)
   $.ajax({
-    url: "http://localhost:3000/submit/",
+    url: "http://localhost:3000/autentification/",
     type : "POST",
-    data: JSON.stringify(paper),
+    data: JSON.stringify(ID),
     contentType: "application/json; charset=utf-8",
     dataType : "json",
     beforeSend: function( xhr,data ) {
       //xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
-      console.log("COUCOU JENVOIE DES TRUCS POUR TOI")
+      console.log("COUCOU MON ID ")
       console.log(data)
     }
   })
@@ -39,5 +40,5 @@ submitMyIssue = (e) => {
   });
 };
 
-$('#SubmitInfo').on('click',submitMyIssue)
+$('#signIn').on('click',Try_authentification)
 
