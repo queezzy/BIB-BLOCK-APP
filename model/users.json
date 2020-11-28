@@ -1,0 +1,17 @@
+{
+    "DatabaseName": "Users",
+    "members": [
+        {
+            "username": "Bibliotheque_1",
+            "password": "21667497e0b5972b767e6a6e1e6b5e9f"
+        },
+        {
+            "username": "Bibliotheque_2",
+            "password": "464f4e429b0e0922fadbc1331a4d1334"
+        },
+        {
+            "username": "Maison_Edition",
+            "password": "4e5097c2ec329092c0bd71b89181f744"
+        }
+    ]
+}

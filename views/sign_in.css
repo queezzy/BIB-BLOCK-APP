@@ -3,7 +3,7 @@ body {
   height: 100%;
 }
 
-body {
+/*body {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
@@ -42,3 +42,4 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+*/

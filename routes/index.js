@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var issuer = require('../magnetocorp/application/issue');
-var auth = require('../javascripts/utilities');
+//var auth = require('../javascripts/utilities');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -29,18 +29,7 @@ router.post('/submit',function(req, res, next) {
 });
 
 
-/* POST authentification a new paper. */
 
-router.post('/authentification',function(req, res, next) {
-  
-  console.log(req.body)
-  ID = req.body
-  userName = ID.userName;
-  userPass = ID.userPass;
-
-  console.log("Your auth values are being treated");
-
-});
 
 /* sign_in page */
 router.get('/sign_in', function(req, res, next) {

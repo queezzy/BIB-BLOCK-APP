@@ -17,7 +17,7 @@ Try_authentification = (e) => {
   
   console.log(ID)
   $.ajax({
-    url: "http://localhost:3000/autentification/",
+    url: "http://localhost:3000/users/authentication/",
     type : "POST",
     data: JSON.stringify(ID),
     contentType: "application/json; charset=utf-8",
