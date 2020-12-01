@@ -31,92 +31,81 @@
     <link src="views/accueil.css" rel="stylesheet">
   </head>
   <body>
-    <header>
-  <div class="collapse bg-dark" id="navbarHeader">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-8 col-md-7 py-4">
-          <h4 class="text-white">About</h4>
-          <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
-        </div>
-        <div class="col-sm-4 offset-md-1 py-4">
-          <h4 class="text-white">Contact</h4>
-          <ul class="list-unstyled">
-            <li><a href="#" class="text-white">Follow on Twitter</a></li>
-            <li><a href="#" class="text-white">Like on Facebook</a></li>
-            <li><a href="#" class="text-white">Email me</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="navbar navbar-dark bg-dark shadow-sm">
-    <div class="container d-flex justify-content-between">
-      <a href="#" class="navbar-brand d-flex align-items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="mr-2" viewBox="0 0 24 24" focusable="false"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        <strong>Livres</strong>
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    </div>
-  </div>
-</header>
 
 <main role="main">
 
-  <section class="jumbotron text-center">
+  <section class="text-center py-4" style="background-color: #080d4d;">
     <div class="container">
-      <h1>BIB-BLOCK</h1>
-      <p class="lead text-muted">Bienvenue sur notre plateforme blockchain de vente de livres</p>
-      <p>
-        <a href="#" class="btn btn-primary my-2">Main call to action</a>
-        <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-      </p>
+      <img src="/images/logo2.png" class="img-fluid" width="350px" height=350px alt="Responsive image">
+      <p class="lead text-light">Bienvenue sur notre plateforme blockchain de vente de livres</p>
+      
     </div>
   </section>
+  <div class="w-75 p-4 mx-auto text-center"><p style="font-size:large;"><br><b>
+    BIB-BLOCK est une Blockchain déterminée à simplifier
+    le suivi des transactions des livres rares sur le marché entre 
+    les maisons d'Edition et les bibliothèques (communales, universitaires, privées), ainsi qu'entre les bibliothèques elles-mêmes.
+  </b>
+    <br><br><br>
+    Les maisons d'Edition gérant l'exploitation de ces ressources rares, BIB-BLOCK permet donc de réunir sur un ledger la liste des bibliothèques disposant des 
+    droits d'exploitation temporaires sur les ouvrages.
+    Chaque ressource ayant un prix fixé par les maisons d'Edition selon la rareté et l'importance du livre,
+    la blockchain permet la diffusion de ce prix et des informations sur l'ouvrage
+    à l'ensemble des organisations de BIB-BLOCK.
+    <br><br>
+    Chaque bibliothèque, après identification, accède ainsi à son historique des droits d'exploitation temporairement
+    cédés par les maisons d'Edition, au temps restant pour en disposer, et aux dates des précedants ouvrages
+    remis aux maisons d'Edition ou cédés aux autres bibliothèques. Elle peut également avoir accès à la base de 
+    données des ressources rares automatiquement mise à jour.
+    <br><br>
+    Les gérants de bibliothèques peuvent louer et sous-louer des ouvrages.
+    <br>
+    Les employés de maison d'Edition peuvent ajouter des livres à la base de données,
+    émettre et retirer des droits d'exploitation.
 
+    <br><br><br>
+
+    
+  </p></div>
   <div class="album py-5 bg-light">
     <div class="container">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6 text-center">
           <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">Bibliothèque</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button"  id="identification_btn_1" class="identification_btn_1 btn-sm btn-outline-secondary">Identification</button>
+            <img class="bd-placeholder-img card-img-top"  width="250px" height="250px"
+               src="/images/22.png" class="mb-3 img-fluid" alt="Responsive image">
+            <div class="card-body" style="height: 250px;">
+              <p style="font-size: large; height: 100px;"> <b>Bibliothèque</b> <br> Les gérants de bibliothèque
+              peuvent s'identifier afin de connaître l'historique de leurs transactions.
+              </p>
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                
+                <div class="btn-group-bottom mx-auto mb-3">
+                  <button type="button"  id="identification_btn_1" class="identification_btn_1 btn-sm btn-outline-secondary mt-4"><a href="/sign_in" style="color:grey">Identification</a></button>
                 </div>
-                <small class="text-muted">9 mins</small>
+                
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        
+        <div class="col-md-6 text-center">
           <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">Librairie</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" id="identification_btn_2" class="identification_btn_2 btn-sm btn-outline-secondary">Identification</button>
+            <img class="bd-placeholder-img card-img-top"  width="250px" height="250px"
+               src="/images/11.png" class="mb-3 img-fluid" alt="Responsive image">
+              <!--title>Administrateur</title>
+              <Les tailles des rectangles, le texte dedans et ceux au-dessus pour décrire le projet (ie la blockchain)--></svg>
+            <div class="card-body"style="height: 250px;">
+              
+              <p style="font-size: large; height: 100px;"> <b>Maison d'Edition</b> <br> Les employés de Maison d'Edition 
+                peuvent s'identifier afin de connaître l'historique de leurs transactions.
+              </p>
+              <!--div class="d-flex justify-content-between align-items-center-->
+                
+                <div class="btn-group-bottom mx-auto mb-3">
+                  <button type="button" id="identification_btn_3" class="identification_btn_3 btn-sm btn-outline-secondary mt-4"><a href="/sign_in" style="color:grey">Identification</a></button>
                 </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">Admin</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" id="identification_btn_3" class="identification_btn_3 btn-sm btn-outline-secondary"><a href="/sign_in">Identification</a></button>
-                </div>
-                <small class="text-muted">9 mins</small>
+                
               </div>
             </div>
           </div>
@@ -128,10 +117,10 @@
 
 <footer class="text-muted">
   <div class="container">
-    <p class="float-right">
-      <a href="#">Back to top</a>
+    <p>
+      <!--a href="#">Back to top</a-->
+      KFG
     </p>
-    <p>Made by KFG</p>
   </div>
 </footer>
 <!--script src="javascripts/button_accueil.js"></script-->
