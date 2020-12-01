@@ -1,6 +1,8 @@
-*/gateway
-identity
 node_modules
 **/node_modules
 .metals
 .vscode
+gateway
+identity
+package-lock.json
+**/package-lock.json
