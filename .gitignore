@@ -4,4 +4,4 @@ node_modules
 .vscode 
 identity
 gateway
-package-lock.json
+**/package-lock.json
