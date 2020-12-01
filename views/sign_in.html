@@ -8,48 +8,28 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>Signin</title>
-    <!--style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style-->
-    <link href="sign_in.css" rel="stylesheet">
-  </head>
-  <body>
-    <div class="container-fluid">
-  <div class="container row  justify-content-md-center" style="margin: auto;">
-  <div class="col-md-6 text-center">
-    <form class="form-signin">
-    <img class="mb-4" src="../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail" class="sr-only">Username</label>
-    <input type="text" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div>
-    <button id="signIn" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
-  </form>
-</div>
-</div>
+<body class="text-center" style="background: #f8f9fa;">
+  <div class="container">
+    <div class="row justify-content-md-center mt-5">
+      
+      <div class="middle col-6 py-5" style="background: white;">
+        <form class="form-signin">
+          <img class="mb-4" src="/images/8.png" alt="" width="250px" height="250px">
+    <!--img class="mb-4" src="logo_1.svg" -->
+    <!--BOUGER TOUT vers le centre, ie grouper, à tester encore, espacer les bo-->
+          <h1 class="h3 mb-3 font-weight-normal" style="font-family: 'Gill Sans', sans-serif; color:dimgray">Please sign in</h1>
+          <label for="inputEmail"></label>
+          <input type="text" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
+          <label for="inputPassword"></label>
+          <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+          <button id="signIn" class="btn btn-secondary btn-lg btn-block mt-5" type="submit">Sign in</button>
+          <p class="mt-5 mb-3 text-muted">&copy; Ensimag Biblock</p>
 
-</div>
-
+        </form>
+      </div>
+   </div>
+  </div>
 </body>
 <script src="javascripts/sign_in.js"></script>
 </html>

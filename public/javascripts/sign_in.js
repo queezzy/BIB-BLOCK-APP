@@ -29,15 +29,26 @@ Try_authentification = (e) => {
     }
   })
     .done(function(data) {
-      if ( console && console.log ) {
-        console.log("IM BAAAAAAAAACK")
-        console.log( "IM BACK", data );
-        console( data );
-      }
+
+        if (data.error_message){
+          $("#error_message_login").show()
+          $("#error_message_login").text(data.error_message)
+        }
+        else{
+          console.log(data)
+          if (data.username && data.role){
+
+            localStorage.setItem("bib_block_values",{"username":data.username,"role":data.role})
+            console.log(localStorage.getItem("bib_block_values"))
+          }
+        }
+
     })  
-  .fail(function(ex) {
-    console.log(ex);
-  });
+    .fail(function(ex) {
+      $("#error_message_login").show()
+      $("#error_message_login").text("Une erreur s'est produite. Veuillez contacter les étudiants de l'ensimag qui ont développé le projet")
+      console.log(ex)
+    });
 };
 
 $('#signIn').on('click',Try_authentification)
