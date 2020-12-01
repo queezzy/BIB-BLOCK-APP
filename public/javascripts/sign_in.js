@@ -14,7 +14,6 @@ Try_authentification = (e) => {
     userName: $("#inputEmail").val(),
     userPass: $("#inputPassword").val(), 
    }
-  
   console.log(ID)
   $.ajax({
     url: "http://localhost:3000/users/authentication/",
@@ -36,14 +35,14 @@ Try_authentification = (e) => {
         }
         else{
           console.log(data)
-          if (data.username && data.role){
+          if (data.username && data.role && data.redirect_url){
 
-            localStorage.setItem("bib_block_values",{"username":data.username,"role":data.role})
+            localStorage.setItem("bib_block_values",{"username":data.username,"role":data.role,"transaction_page":data.redirect_url})
             console.log(localStorage.getItem("bib_block_values"))
+            window.location.href = data.redirect_url
           }
         }
-
-    })  
+    })
     .fail(function(ex) {
       $("#error_message_login").show()
       $("#error_message_login").text("Une erreur s'est produite. Veuillez contacter les étudiants de l'ensimag qui ont développé le projet")

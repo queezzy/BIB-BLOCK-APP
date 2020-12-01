@@ -11,39 +11,20 @@ router.get('/', function(req, res, next) {
  
 });
 
-/* POST submit a new paper. */
-
-router.post('/submit',function(req, res, next) {
-  
-  if(!req.session.username){
-    res.redirect("/sign_in")
-  }
-  
-  console.log(req.body)
-  paper = req.body
-  paperID = paper.paperID;
-  paperIssuer = paper.paperIssuer;
-  paperFaceValue = paper.paperFaceValue;
-
-  console.log("Transaction is being processed");
-  
-  issuer.issue_contract("issue",paperID,paperIssuer,paperFaceValue).then(function(){
-    console.log("Transaction has been submitted");
-    res.status(200).send('GOOOOOOOD')
-  });
-
-
-});
-
-
 
 
 /* sign_in page */
 router.get('/sign_in', function(req, res, next) {
   if (req.session.username && req.session.role){
-    res.redirect("/transaction")
+    if(req.session.role === USER_ROLE.LIB){
+
+      res.redirect("/transaction/library")
+    }
+    if(req.session.role === USER_ROLE.MED){
+      res.redirect("/transaction/publishing_house")
+    }
   }
-  res.render('sign_in', { title: 'Express' });
+  res.render('sign_in');
 });
 
 module.exports = router;

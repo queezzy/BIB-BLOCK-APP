@@ -3,7 +3,6 @@ const CryptoJS = require("crypto-js");
 let users_data = require("../model/users.json");
 class Authentication {
     
-
     static checkUser(username, password){
             
             let data = users_data.members
@@ -45,9 +44,7 @@ class Authentication {
         return null
 
     }
-
 }
-
 module.exports = Authentication;
 
 
