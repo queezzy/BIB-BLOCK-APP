@@ -39,56 +39,56 @@
         font-size: 3.5rem;
       }
     }
-  </style>
-  <!-- Custom styles for this template -->
-  <link href="/css/dashboard.css" rel="stylesheet">
-</head>
 
-<body>
-  <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">Company name</a>
-    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
-      data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-    <ul class="navbar-nav px-3">
-      <li class="nav-item text-nowrap">
-        <a class="nav-link" href="#">Sign out</a>
-      </li>
-    </ul>
-  </nav>
-  <div class="container-fluid">
-    <div class="row">
-      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-        <div class="sidebar-sticky pt-3">
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a id="READ" class=" nav-link active" style="cursor:pointer;">
-                <div class="">
-                  <span id="read" data-feather="home">Voir les livres disponibles</span>
-                </div>
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a id="ADD" class="nav-link" style="cursor:pointer">
-                <div class="">
-                  <span id="add" data-feather="file">Ajouter un livre</span>
-                </div>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a id="DELETE" class="nav-link" style="cursor:pointer">
-                <div class="">
-                  <span id="add" data-feather="file">Racheter un livre un livre</span>
-                </div>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <div id="Readpage" class="container-fluid"></div>
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="/css/dashboard.css" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar navbar sticky-top bg flex-md-nowrap p-0 shadow" style="background: #080d4d;">
+      <img src="/images/logo1.png" class="img-fluid" width="150px" height=150px alt="Responsive image">
+      <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" style="color: white;" href="#">Company name</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+  <ul class="navbar-nav px-3">
+    <li class="nav-item text-nowrap">
+      <a class="nav-link" href="#" style="color: white;">Sign out</a>
+    </li>
+  </ul>
+</nav>
+<div  class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="sidebar-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a id="READ" class=" nav-link " style="cursor:pointer;">
+              <div class="">
+                <span id="read" data-feather="home">Voir les livres disponibles</span>
+              </div>  
+               <!--span class="sr-only">(current)</span-->
+            </a>
+          </li>
+          <li class="nav-item">
+            <a id="ADD" class="nav-link" style="cursor:pointer;" >
+              <div class="">
+                <span id="add" data-feather="file">Ajouter un livre</span> 
+             </div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a id="DELETE" class="nav-link" style="cursor:pointer;" >
+              <div class="">
+                <span id="add" data-feather="file">Racheter un livre un livre</span> 
+             </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div id="Readpage" class="container-fluid"></div>
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
         <div
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -161,9 +161,20 @@
             <button type="button" class="update btn-outline-primary">Modifier un asset</button>
           </form>
         </div>
-      </main>
-
-    </div>
+        <button id="SubmitInfo" class="btn btn-outline-secondary">Submit</button>
+      </form>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+        <!--form>
+          <button type="button" class="check btn btn-outline-secondary">Vérifier le registre</button>
+          <button type="button" class="create btn btn-outline-secondary">Créer un asset</button>
+          <button type="button" class="update btn btn-outline-secondary">Modifier un asset</button>
+        </form-->
+      </div>
+    </main>
+    
   </div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
