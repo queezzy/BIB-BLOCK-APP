@@ -43,15 +43,17 @@
     <link href="dashboard.css" rel="stylesheet">
   </head>
   <body>
-    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">Company name</a>
+    <nav class="navbar navbar sticky-top bg flex-md-nowrap p-0 shadow" style="background: #080d4d;">
+      <img src="../public/images/logo1.png" class="img-fluid" width="150px" height=150px alt="Responsive image">
+      <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" style="color: white;" href="#">Company name</a>
+ 
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
-      <a class="nav-link" href="#">Sign out</a>
+      <a class="nav-link" href="#" style="color: white;">Sign out</a>
     </li>
   </ul>
 </nav>
@@ -61,7 +63,7 @@
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a id="READ" class=" nav-link active" style="cursor:pointer;">
+            <a id="READ" class=" nav-link " style="cursor:pointer;">
               <div class="">
                 <span id="read" data-feather="home">Voir les livres disponibles</span>
               </div>  
@@ -139,17 +141,17 @@
           <label for="paperIssuer">Issuer</label>
           <input type="text" class="form-control" id="paperIssuer">
         </div>
-        <button id="SubmitInfo" class="btn btn-outline-primary">Submit</button>
+        <button id="SubmitInfo" class="btn btn-outline-secondary">Submit</button>
       </form>
       <br/>
       <br/>
       <br/>
       <br/>
-        <form>
-          <button type="button" class="check btn-outline-primary">Vérifier le registre</button>
-          <button type="button" class="create btn-outline-primary">Créer un asset</button>
-          <button type="button" class="update btn-outline-primary">Modifier un asset</button>
-        </form>
+        <!--form>
+          <button type="button" class="check btn btn-outline-secondary">Vérifier le registre</button>
+          <button type="button" class="create btn btn-outline-secondary">Créer un asset</button>
+          <button type="button" class="update btn btn-outline-secondary">Modifier un asset</button>
+        </form-->
       </div>
     </main>
     
