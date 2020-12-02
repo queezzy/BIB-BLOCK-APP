@@ -113,7 +113,7 @@ class CommercialPaperContract extends Contract {
         if (paper.isTrading()) {
             paper.setOwner(newOwner);
         } else {
-            throw new Error('Paper ' + issuer + paperNumber + ' is not trading. Current state = ' + paper.getCurrentState());
+            throw new Error('Paper ' + issuer + paperNumber + ' is not trading. Current state = ' +paper.getCurrentState());
         }
 
         // Update the paper
@@ -150,6 +150,13 @@ class CommercialPaperContract extends Contract {
         }
 
         await ctx.paperList.updatePaper(paper);
+        return paper;
+    }
+
+    async readAll(ctx,query) {
+        // Add the paper to the list of all similar commercial papers in the ledger world state
+        let paper = await ctx.paperList.couchQuery(query);
+        // Must return a serialized paper to caller of smart contract
         return paper;
     }
 

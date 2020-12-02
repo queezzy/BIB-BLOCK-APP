@@ -153,6 +153,13 @@ class CommercialPaperContract extends Contract {
         return paper;
     }
 
+    async readAll(ctx,query) {
+        // Add the paper to the list of all similar commercial papers in the ledger world state
+        let paper = await ctx.paperList.couchQuery(query);
+        // Must return a serialized paper to caller of smart contract
+        return paper;
+    }
+
 }
 
 module.exports = CommercialPaperContract;

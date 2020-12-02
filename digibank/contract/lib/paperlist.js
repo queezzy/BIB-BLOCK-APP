@@ -29,6 +29,12 @@ class PaperList extends StateList {
     async updatePaper(paper) {
         return this.updateState(paper);
     }
+
+    async couchQuery(query){
+        return this.couchQuery(query)
+    }
+
+    
 }
 
 

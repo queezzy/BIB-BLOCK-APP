@@ -64,6 +64,21 @@ class StateList {
         await this.ctx.stub.putState(key, data);
     }
 
+    async getAllResults(promiseOfIterator) {
+        const allResults = [];
+        for await (const res of promiseOfIterator) {
+            allResults.push(res.value.toString('utf8'));
+        }
+        return allResults;
+    }
+
+
+    async couchQuery(query) {
+        let promiseOfIterator = this.ctx.stub.getQueryResult(JSON.stringify(query));
+        let results = await getAllResults(promiseOfIterator);
+        return results
+    }
+
     /** Stores the class for future deserialization */
     use(stateClass) {
         this.supportedClasses[stateClass.getClass()] = stateClass;
