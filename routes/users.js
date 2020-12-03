@@ -16,12 +16,7 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/logout', function(req, res, next) {
-  
-  req.session.destroy()
-  res.redirect("/")
 
-});
 
 
 router.get('/transaction/library', function(req, res, next) {
@@ -33,9 +28,11 @@ router.get('/transaction/library', function(req, res, next) {
 
       res.render("transaction_library")
     }
+  }else{
+    res.redirect("/sign_in")
   }
   
-  res.redirect("/sign_in")
+  
 
 });
 
@@ -49,9 +46,12 @@ router.get('/transaction/publishing_house', function(req, res, next) {
       res.render("transaction_publishing_house")
 
     }
+  }else{
+    res.redirect("/sign_in")
+
   }
   
-  res.redirect("/sign_in")
+  
 
 });
 

@@ -27,6 +27,13 @@ router.get('/sign_in', function(req, res, next) {
   res.render('sign_in');
 });
 
+router.get('/logout', function(req, res, next) {
+  
+  req.session.destroy()
+  res.redirect("/")
+
+});
+
 module.exports = router;
 
 
