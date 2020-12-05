@@ -3,108 +3,110 @@ var express = require('express');
 var session = require('express-session')
 var issue_app = require('../magnetocorp/application/issue');
 var read_app = require('../magnetocorp/application/read');
+var buy_app = require('../digibank/application/buy')
+var redeem_app = require('../digibank/application/redeem')
 var router = express.Router();
 var authentication_utilities = require('../core/verify_authentification')
 
 const USER_ROLE = {
-  "MED":2,
-  "LIB":1,
-  "WRONG_PASS":0,
-  "UNDEFINED":-1
+  "MED": 2,
+  "LIB": 1,
+  "WRONG_PASS": 0,
+  "UNDEFINED": -1
 }
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
 
 
 
-router.get('/transaction/library', function(req, res, next) {
+router.get('/transaction/library', function (req, res, next) {
 
-  if(req.session.username && req.session.role){
+  if (req.session.username && req.session.role) {
     //res.render('transaction', { title: 'Express' });
 
-    if(req.session.role === USER_ROLE.LIB){
+    if (req.session.role === USER_ROLE.LIB) {
 
       res.render("transaction_library")
     }
-  }else{
+  } else {
     res.redirect("/sign_in")
   }
-  
-  
+
+
 
 });
 
-router.get('/transaction/publishing_house', function(req, res, next) {
+router.get('/transaction/publishing_house', function (req, res, next) {
 
-  if(req.session.username && req.session.role){
+  if (req.session.username && req.session.role) {
     //res.render('transaction', { title: 'Express' });
 
-    if(req.session.role === USER_ROLE.MED){
+    if (req.session.role === USER_ROLE.MED) {
 
       res.render("transaction_publishing_house")
 
     }
-  }else{
+  } else {
     res.redirect("/sign_in")
 
   }
-  
-  
+
+
 
 });
 
 
 /* POST authentification a new paper. */
 
-router.post('/authentication',function(req, res, next) {
+router.post('/authentication', function (req, res, next) {
 
   ID = req.body
   userName = ID.userName;
   userPass = ID.userPass;
 
   try {
-  
-    user_result = authentication_utilities.checkUser(userName,userPass);
-    
+
+    user_result = authentication_utilities.checkUser(userName, userPass);
+
     if (user_result.Valid) {
 
       req.session.username = userName
       req.session.role = user_result.Role
 
-      if(user_result.Role === USER_ROLE.LIB){
+      if (user_result.Role === USER_ROLE.LIB) {
 
-        res.json({"username": userName,"role":user_result.Role,"redirect_url":"/users/transaction/library"});
+        res.json({ "username": userName, "role": user_result.Role, "redirect_url": "/users/transaction/library" });
 
       }
-      if(user_result.Role === USER_ROLE.MED){
+      if (user_result.Role === USER_ROLE.MED) {
 
-        res.json({"username": userName,"role":user_result.Role,"redirect_url":"/users/transaction/publishing_house"});
+        res.json({ "username": userName, "role": user_result.Role, "redirect_url": "/users/transaction/publishing_house" });
 
       }
     }
-    else{
+    else {
 
       let message;
 
-      if(user_result.Role === USER_ROLE.WRONG_PASS){
+      if (user_result.Role === USER_ROLE.WRONG_PASS) {
         message = "Wrong password provided"
       }
-      else{
+      else {
         message = "This user is not valid. Please provide valid credentials from a valid organization"
       }
-      
-      
-      res.json({"error_message": message});
+
+
+      res.json({ "error_message": message });
     }
-  
+
   } catch (error) {
 
-    res.json({"error_message": error});
-    
+    res.json({ "error_message": error });
+
   }
 
 
@@ -113,12 +115,12 @@ router.post('/authentication',function(req, res, next) {
 
 /* POST submit a new paper. */
 
-router.post('/submit',function(req, res, next) {
-  
-  if(!req.session.username){
+router.post('/submit', function (req, res, next) {
+
+  if (!req.session.username) {
     res.redirect("/sign_in")
   }
-  
+
   console.log(req.body)
   resource = req.body
   resource_id = resource.resource_id;
@@ -128,39 +130,121 @@ router.post('/submit',function(req, res, next) {
   resource_value = resource.resource_value
 
   console.log("Transaction is being processed");
-  
-  issue_app.issue_contract("issue",resource_id,resource_title,resource_description,resource_value,resource_issuer).then(transaction_res=>{
 
-    
-    if(transaction_res===0){
-
-      res.json({"status":0,"message": "Votre transaction a bien été soumise à la validation des peers de bib-block"});
-
-    }
-    else{
-      res.json({"status":1,"message": "Une erreur est survenue dans le traitement de votre transaction."});
-    }
-
-  });
-  
-  });
+  issue_app.issue_contract("issue", resource_id, resource_title, resource_description, resource_value, resource_issuer).then(transaction_res => {
 
 
-router.get('/all_publication',function(req,res,next) {
+    if (transaction_res === 0) {
 
-  if(!req.session.username){
-    res.redirect("/sign_in");
-  }
-  read_app.read_all_assets().then(read_all_res=>{
-    if (read_all_res === -1){
-      res.json({"status":1,"message":"Erreur lors de la lecture du ledger"})
+      res.json({ "status": 0, "message": "Votre transaction a bien été soumise à la validation des peers de bib-block" });
+
     }
     else {
-      res.json({"status":0,"message":"Votre transaction a bien été effectuée","data":read_all_res})
+      res.json({ "status": 1, "message": "Une erreur est survenue dans le traitement de votre transaction." });
+    }
+
+  });
+
+});
+
+
+router.get('/all_publication', function (req, res, next) {
+
+  if (!req.session.username) {
+    res.redirect("/sign_in");
+  }
+  read_app.read_all_assets().then(read_all_res => {
+    if (read_all_res === -1) {
+      res.json({ "status": 1, "message": "Erreur lors de la lecture du ledger" })
+    }
+    else {
+      res.json({ "status": 0, "message": "Votre transaction a bien été effectuée", "data": read_all_res })
     }
   })
 
 });
-  
+
+
+/* POST submit a new paper. */
+
+router.post('/buy', function (req, res, next) {
+
+  if (!req.session.username) {
+    res.redirect("/sign_in")
+  }
+
+  if (req.session.role !== USER_ROLE.LIB) {
+    res.json({ "status": 1, "message": "Votre role ne vous permet pas d'effectuer ce type de transaction" });
+  } else {
+
+    console.log(req.body)
+    resource = req.body
+    resource_id = resource.resource_id;
+    resource_issuer = resource.resource_issuer;
+    resource_current_owner = resource.resource_current_owner;
+    resource_new_owner = req.session.username;
+
+    console.log("Transaction is being processed");
+
+    buy_app.buy_contract("buy",resource_issuer, resource_id,resource_current_owner,resource_new_owner).then(transaction_res => {
+
+
+      if (transaction_res === 0) {
+
+        res.json({ "status": 0, "message": "Votre transaction a bien été soumise à la validation des peers de bib-block" });
+
+      }
+      else {
+        res.json({ "status": 1, "message": "Une erreur est survenue dans le traitement de votre transaction.Vérifier les éléments règles suivantes: "+
+                    "Le statut de la resource n'est pas en mode rétrocédé. Vous n'êtes pas déjà propriétaire de la ressource. Vous avez bien renseigné le propriétaire de la ressource et la maison d'édition qui l'a émise." });
+      }
+
+    });
+
+
+  }
+
+
+});
+
+router.post('/redeem', function (req, res, next) {
+
+  if (!req.session.username) {
+    res.redirect("/sign_in")
+  }
+
+  if (req.session.role !== USER_ROLE.LIB) {
+    res.json({ "status": 1, "message": "Votre role ne vous permet pas d'effectuer ce type de transaction" });
+  } else {
+
+    console.log(req.body)
+    resource = req.body
+    resource_id = resource.resource_id;
+    resource_issuer = resource.resource_issuer;
+    resource_redeem_owner = req.session.username;
+
+    console.log("Transaction is being processed");
+
+    redeem_app.redeem_contract("redeem",resource_issuer, resource_id,resource_redeem_owner).then(transaction_res => {
+
+
+      if (transaction_res === 0) {
+
+        res.json({ "status": 0, "message": "Votre transaction a bien été soumise à la validation des peers de bib-block" });
+
+      }
+      else {
+        res.json({ "status": 1, "message": "Une erreur est survenue dans le traitement de votre transaction.Vérifier les éléments règles suivantes: "+
+                    "Le statut de la resource n'est pas en mode rétrocédé. Vous n'êtes pas déjà propriétaire de la ressource. Vous avez bien renseigné le propriétaire de la ressource et la maison d'édition qui l'a émise." });
+      }
+
+    });
+
+
+  }
+
+
+});
+
 
 module.exports = router;

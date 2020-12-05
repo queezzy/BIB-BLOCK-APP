@@ -59,17 +59,15 @@ class CommercialPaperContract extends Contract {
      *
      * @param {Context} ctx the transaction context
      * @param {String} issuer commercial paper issuer
-     * @param {Integer} resourceID resource ID number for this issuer
-     * @param {String} resourceTitle resource title
-     * @param {String} resourceDescription resource description
-     * @param {Integer} resourceValue the price to buy the rights to exploit a resource
-     * @param {String} issueDateTime resource rights issue date
+     * @param {Integer} paperNumber paper number for this issuer
+     * @param {String} issueDateTime paper issue date
      * @param {String} maturityDateTime paper maturity date
+     * @param {Integer} faceValue face value of paper
     */
-    async issue(ctx, issuer, resourceID, resourceTitle,resourceDescription, resourceValue, issueDateTime, maturityDateTime) {
+    async issue(ctx, issuer, paperNumber, issueDateTime, maturityDateTime, faceValue) {
 
         // create an instance of the paper
-        let paper = CommercialPaper.createInstance(issuer, resourceID, resourceTitle,resourceDescription, resourceValue, issueDateTime, maturityDateTime);
+        let paper = CommercialPaper.createInstance(issuer, paperNumber, issueDateTime, maturityDateTime, faceValue);
 
         // Smart contract, rather than paper, moves paper into ISSUED state
         paper.setIssued();
@@ -95,7 +93,7 @@ class CommercialPaperContract extends Contract {
      * @param {Integer} price price paid for this paper
      * @param {String} purchaseDateTime time paper was purchased (i.e. traded)
     */
-    async buy(ctx, issuer, paperNumber, currentOwner, newOwner, price, purchaseDateTime) {
+    /*async buy(ctx, issuer, paperNumber, currentOwner, newOwner, price, purchaseDateTime) {
 
         // Retrieve the current paper using key fields provided
         let paperKey = CommercialPaper.makeKey([issuer, paperNumber]);
@@ -121,6 +119,40 @@ class CommercialPaperContract extends Contract {
         // Update the paper
         await ctx.paperList.updatePaper(paper);
         return paper;
+    }*/
+
+    // Dans la V2, intégrer le prix
+
+    async buy(ctx, resource_issuer, resource_id, resource_currentOwner, resource_newOwner) {
+
+        // Retrieve the current paper using key fields provided
+        let resourceKey = CommercialPaper.makeKey([resource_issuer, resource_id]);
+        let resource = await ctx.paperList.getPaper(resourceKey);
+
+        if(resource_currentOwner == resource_newOwner){
+            throw new Error("Vous ne pouvez pas acheter des ressources que vous possédez déjà"); 
+        }
+        // Validate current owner
+        if (resource.getOwner() !== resource_currentOwner) {
+            throw new Error('La ressource ' + resource_issuer + resource_id + ' n\'appartient pas à  ' + resource_currentOwner);
+        }
+
+        // First buy moves state from ISSUED to TRADING
+
+        if (resource.isIssued()) {
+            resource.setTrading();
+        }
+
+        // Check paper is not already REDEEMED
+        if (resource.isTrading()) {
+            resource.setOwner(resource_newOwner);
+        } else {
+            throw new Error('La Ressource ' + resource_issuer + resource_id + ' est en mode rétrocédé');
+        }
+
+        // Update the paper
+        await ctx.paperList.updatePaper(resource);
+        return resource;
     }
 
     /**
@@ -132,27 +164,27 @@ class CommercialPaperContract extends Contract {
      * @param {String} redeemingOwner redeeming owner of paper
      * @param {String} redeemDateTime time paper was redeemed
     */
-    async redeem(ctx, issuer, resourceID, redeemingOwner, redeemDateTime) {
+    async redeem(ctx, resource_issuer, resource_id, redeemingOwner) {
 
-        let resourceKey = CommercialPaper.makeKey([issuer, resourceID]);
+        let resource_key = CommercialPaper.makeKey([resource_issuer, resource_id]);
 
-        let paper = await ctx.paperList.getPaper(resourceKey);
+        let resource = await ctx.paperList.getPaper(resource_key);
 
         // Check paper is not REDEEMED
-        if (paper.isRedeemed()) {
-            throw new Error('Paper ' + issuer + resourceID + ' already redeemed');
+        if (resource.isRedeemed()) {
+            throw new Error('Resource ' + resource_issuer + resource_id + ' déjà rétrocédée');
         }
 
         // Verify that the redeemer owns the commercial paper before redeeming it
-        if (paper.getOwner() === redeemingOwner) {
-            paper.setOwner(paper.getIssuer());
-            paper.setRedeemed();
+        if (resource.getOwner() === redeemingOwner) {
+            resource.setOwner(resource.getIssuer());
+            resource.setRedeemed();
         } else {
-            throw new Error('Redeeming owner does not own paper' + issuer + paperNumber);
+            throw new Error('Vous essayez de rétrocéder une ressource que vous ne possédez pas');
         }
 
-        await ctx.paperList.updatePaper(paper);
-        return paper;
+        await ctx.paperList.updatePaper(resource);
+        return resource;
     }
 
     async readAll(ctx,query) {
@@ -161,7 +193,6 @@ class CommercialPaperContract extends Contract {
         // Must return a serialized paper to caller of smart contract
         return paper;
     }
-
 }
 
 module.exports = CommercialPaperContract;

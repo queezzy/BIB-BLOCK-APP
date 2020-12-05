@@ -65,40 +65,17 @@ class StateList {
     }
 
     async getAllResults(promiseOfIterator) {
-        
         const allResults = [];
-        
-        while(true){
-            let res = await promiseOfIterator.next();
-
-            if (res.value && res.value.value.toString()) {
-                
-                console.log(res.value.value.toString('utf8'));
-                const Key = res.value.key;
-                let Record;
-
-                try {
-                    Record = JSON.parse(res.value.value.toString('utf8'));
-                } catch (err) {
-                    console.log(err);
-                    Record = res.value.value.toString('utf8');
-                }
-                allResults.push({ Key, Record });
-            }
-
-            if (res.done) {
-                console.log('end of data');
-                await promiseOfIterator.close();
-                console.info(allResults);
-                return JSON.stringify(allResults);
-            }
+        for await (const res of promiseOfIterator) {
+            allResults.push(res.value.toString('utf8'));
         }
+        return allResults;
     }
 
-    async couchQueryState(query) {
-        let promiseOfIterator = await this.ctx.stub.getQueryResult(query);
-        //console.log(promiseOfIterator)
-        let results = await this.getAllResults(promiseOfIterator);
+
+    async couchQuery(query) {
+        let promiseOfIterator = this.ctx.stub.getQueryResult(JSON.stringify(query));
+        let results = await getAllResults(promiseOfIterator);
         return results
     }
 

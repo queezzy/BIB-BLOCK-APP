@@ -3,13 +3,19 @@ const session = require('express-session');
 var router = express.Router();
 //var auth = require('../javascripts/utilities');
 
+const USER_ROLE = {
+  "MED":2,
+  "LIB":1,
+  "WRONG_PASS":0,
+  "UNDEFINED":-1
+}
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
     res.render('index', { title: 'Express' });
  
 });
-
 
 
 /* sign_in page */

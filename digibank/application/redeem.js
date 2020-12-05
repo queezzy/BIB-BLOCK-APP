@@ -21,85 +21,86 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 const { Wallets, Gateway } = require('fabric-network');
 const CommercialPaper = require('../contract/lib/paper.js');
+const path = require('path');
+const CURRENT_DIR = path.join(process.cwd(), 'digibank/');
 
+class RedeemApp{
 
-// Main program function
-async function main() {
+  static async redeem_contract(transactionType, resource_issuer, resource_id, resource_redeemOwner) {
 
-  // A wallet stores a collection of identities for use
-  const wallet = await Wallets.newFileSystemWallet('../identity/user/balaji/wallet');
+    // A wallet stores a collection of identities for use
+    const wallet = await Wallets.newFileSystemWallet(path.join(CURRENT_DIR,'identity/user/balaji/wallet'));
+  
+  
+    // A gateway defines the peers used to access Fabric networks
+    const gateway = new Gateway();
+  
+    // Main try/catch block
+    try {
+  
+      // Specify userName for network access
+          // Specify userName for network access
+          const userName = 'balaji';
+  
+      // Load connection profile; will be used to locate a gateway
+      let connectionProfile = yaml.safeLoad(fs.readFileSync(path.join(CURRENT_DIR,'gateway/connection-org1.yaml'),'utf8'));
+  
+      // Set connection options; identity and wallet
+      let connectionOptions = {
+        identity: userName,
+        wallet: wallet,
+        discovery: { enabled:true, asLocalhost: true }
+      };
+  
+      // Connect to gateway using application specified parameters
+      console.log('Connect to Fabric gateway.');
+  
+      await gateway.connect(connectionProfile, connectionOptions);
+  
+      // Access PaperNet network
+      console.log('Use network channel: mychannel.');
+  
+      const network = await gateway.getNetwork('mychannel');
+  
+      // Get addressability to commercial paper contract
+      console.log('Use org.papernet.commercialpaper smart contract.');
+  
+      const contract = await network.getContract('papercontract', 'org.papernet.commercialpaper');
+  
+      // redeem commercial paper
+      console.log('Submit commercial paper redeem transaction.');
+  
+      const redeemResponse = await contract.submitTransaction(transactionType,resource_issuer,resource_id, resource_redeemOwner);
+  
+      // process response
+      console.log('Process redeem transaction response.');
+  
+      let paper = CommercialPaper.fromBuffer(redeemResponse);
+      console.log(paper)
+      //console.log(`${paper.issuer} commercial paper : ${paper.paperNumber} successfully redeemed with ${paper.owner}`);
+      console.log('Transaction complete.');
 
+      return 0;
+  
+    } catch (error) {
+  
+      console.log(`Error processing transaction. ${error}`);
+      console.log(error.stack);
 
-  // A gateway defines the peers used to access Fabric networks
-  const gateway = new Gateway();
-
-  // Main try/catch block
-  try {
-
-    // Specify userName for network access
-        // Specify userName for network access
-        const userName = 'balaji';
-
-    // Load connection profile; will be used to locate a gateway
-    let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/connection-org1.yaml', 'utf8'));
-
-    // Set connection options; identity and wallet
-    let connectionOptions = {
-      identity: userName,
-      wallet: wallet,
-      discovery: { enabled:true, asLocalhost: true }
-    };
-
-    // Connect to gateway using application specified parameters
-    console.log('Connect to Fabric gateway.');
-
-    await gateway.connect(connectionProfile, connectionOptions);
-
-    // Access PaperNet network
-    console.log('Use network channel: mychannel.');
-
-    const network = await gateway.getNetwork('mychannel');
-
-    // Get addressability to commercial paper contract
-    console.log('Use org.papernet.commercialpaper smart contract.');
-
-    const contract = await network.getContract('papercontract', 'org.papernet.commercialpaper');
-
-    // redeem commercial paper
-    console.log('Submit commercial paper redeem transaction.');
-
-    const redeemResponse = await contract.submitTransaction('redeem', 'MagnetoCorp', '00001', 'DigiBank', '2020-11-30');
-
-    // process response
-    console.log('Process redeem transaction response.');
-
-    let paper = CommercialPaper.fromBuffer(redeemResponse);
-
-    console.log(`${paper.issuer} commercial paper : ${paper.paperNumber} successfully redeemed with ${paper.owner}`);
-    console.log('Transaction complete.');
-
-  } catch (error) {
-
-    console.log(`Error processing transaction. ${error}`);
-    console.log(error.stack);
-
-  } finally {
-
-    // Disconnect from the gateway
-    console.log('Disconnect from Fabric gateway.')
-    gateway.disconnect();
-
+      return 1;
+  
+    } finally {
+  
+      // Disconnect from the gateway
+      console.log('Disconnect from Fabric gateway.')
+      gateway.disconnect();
+  
+    }
   }
+
 }
-main().then(() => {
+// Main program function
 
-  console.log('Redeem program complete.');
+module.exports = RedeemApp;
 
-}).catch((e) => {
-
-  console.log('Redeem program exception.');
-  console.log(e);
-  console.log(e.stack);
-  process.exit(-1);
-
-});
+//RedeemApp.redeem_contract("redeem","NCOE","54651","TOTO")

@@ -156,22 +156,34 @@
 
           <div id="buy-page" style="display: none;" class="transaction-content">
             <h2>Racheter les droits d'une ressource</h2>
-            <form>
+            <form id="submit-buy-rights-form">
               <div class="form-group">
-                <label for="resourceID">Resource ID</label>
-                <input type="text" class="form-control" id="resourceID" placeholder="Entrez la référence de la transaction que vous souhaitez racheter">
+                <label for="resource-id">Resource ID</label>
+                <input type="text" class="form-control" id="resource-id" placeholder="Entrez la référence de la ressource que vous souhaitez racheter">
               </div>
-              <button id="submit-redemm-transaction" class="btn btn-outline-primary">Soumettre la transaction</button>
+              <div class="form-group">
+                <label for="resource-issuer">Resource issuer</label>
+                <input type="text" class="form-control" id="resource-issuer" placeholder="Entrez la maison d'édition qui a émis les droits">
+              </div>
+              <div class="form-group">
+                <label for="resource-current-owner">Resource current owner</label>
+                <input type="text" class="form-control" id="resource-current-owner" placeholder="Entrez le propriétaire actuel de la ressource">
+              </div>
+              <button id="submit-buy-transaction" class="btn btn-outline-primary">Soumettre la transaction</button>
             </form>
           </div>
           <div id="redeem-page" style="display: none;" class="transaction-content">
-            <h2>Racheter les droits d'une ressource</h2>
-            <form>
+            <h2>Rétrocéder les droits d'une ressource à la maison d'édition</h2>
+            <form id="submit-redeem-form">
               <div class="form-group">
-                <label for="resourceID">Resource ID</label>
-                <input type="text" class="form-control" id="resourceID" placeholder="Entrez la référence de la transaction que vous souhaitez racheter">
+                <label for="resource-id">Resource ID</label>
+                <input type="text" class="form-control" id="resource-id" placeholder="Entrez la référence de la ressource que vous souhaitez rétrocéder à la maison d'édition">
               </div>
-              <button id="submit-redemm-transaction" class="btn btn-outline-primary">Soumettre la transaction</button>
+              <div class="form-group">
+                <label for="resource-issuer">Resource issuer</label>
+                <input type="text" class="form-control" id="resource-issuer" placeholder="Entrez la maison d'édition qui a émis les droits">
+              </div>
+              <button id="submit-redeem-transaction" class="btn btn-outline-primary">Soumettre la transaction</button>
             </form>
           </div>
         </main>
