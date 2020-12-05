@@ -1,7 +1,6 @@
 var express = require('express');
 const session = require('express-session');
 var router = express.Router();
-var issuer = require('../magnetocorp/application/issue');
 //var auth = require('../javascripts/utilities');
 
 /* GET home page. */

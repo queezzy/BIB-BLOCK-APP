@@ -1,6 +1,7 @@
 const { json } = require('body-parser');
 var express = require('express');
 var session = require('express-session')
+var issue_app = require('../magnetocorp/application/issue');
 var router = express.Router();
 var authentication_utilities = require('../core/verify_authentification')
 
@@ -118,19 +119,31 @@ router.post('/submit',function(req, res, next) {
   }
   
   console.log(req.body)
-  paper = req.body
-  paperID = paper.paperID;
-  paperIssuer = paper.paperIssuer;
-  paperFaceValue = paper.paperFaceValue;
+  resource = req.body
+  resource_id = resource.resource_id;
+  resource_issuer = resource.resource_issuer;
+  resource_title = resource.resource_title;
+  resource_description = resource.resource_description
+  resource_value = resource.resource_value
 
   console.log("Transaction is being processed");
   
-  issuer.issue_contract("issue",paperID,paperIssuer,paperFaceValue).then(function(){
-    console.log("Transaction has been submitted");
-    res.status(200).send('GOOOOOOOD')
+  issue_app.issue_contract("issue",resource_id,resource_title,resource_description,resource_value,resource_issuer).then(transaction_res=>{
+
+    
+    if(transaction_res===0){
+
+      res.json({"status":0,"message": "Votre transaction a bien été soumise à la validation des peers de bib-block"});
+
+    }
+    else{
+      res.json({"status":1,"message": "Une erreur est survenue dans le traitement de votre transaction."});
+    }
+
+  });
+  
   });
 
-
-});
+  
 
 module.exports = router;

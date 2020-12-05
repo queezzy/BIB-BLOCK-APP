@@ -10,7 +10,7 @@
   <title>Dashboard</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="/javascripts/jquery-3.5.1.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">
@@ -67,7 +67,7 @@
                 <!--span class="sr-only">(current)</span-->
             </li>
             <li class="nav-item">
-              <a id="READ" class=" nav-link left-menu-option" style="cursor:pointer;">
+              <a id="read-all" class=" nav-link left-menu-option" style="cursor:pointer;">
                 <div class="">
                   <span id="read" data-feather="home">Voir toutes les ressources du registre</span>
                 </div>
@@ -75,14 +75,14 @@
               </a>
             </li>
             <li class="nav-item">
-              <a id="ADD" class="nav-link left-menu-option" style="cursor:pointer;">
+              <a id="issue-resource" class="nav-link left-menu-option" style="cursor:pointer;">
                 <div>
                   <span data-feather="file">Ouvrir l'exploitation d'une ressource</span>
                 </div>
               </a>
             </li>
             <li class="nav-item">
-              <a id="REDEEM" class="nav-link left-menu-option" style="cursor:pointer;">
+              <a id="redeem-resource" class="nav-link left-menu-option" style="cursor:pointer;">
                 <div>
                   <span data-feather="file">Racheter les droits d'une ressource</span>
                 </div>
@@ -98,8 +98,15 @@
             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
           </div>
           <h5><span class="glyphicon glyphicon-arrow-left"></span>Veuillez choisir une transaction à effectuer dans le menu situé à votre gauche</h5>
-
-          <div id="read-page" class="table-responsive" style="display: none;">
+          <div id="error_message_transaction" class="alert alert-danger alert-dismissible mt-1 metadata-message" role="alert" style="display: none;"></div>
+          <div id="success_message_transaction" class="alert alert-success alert-dismissible mt-1 metadata-message" role="alert" style="display: none;"></div>
+          <div class="d-flex justify-content-center">
+            <div id="transaction-loader" class="spinner-border metadata-message" role="status" style="display: none;">
+              <span class="sr-only">Nous soumettons votre transaction...</span>
+            </div>
+          </div>
+          
+          <div id="read-page" class="table-responsive transaction-content" style="display: none;">
             <h2>Les livres disponibles en ce moment</h2>
             <table id="table" class="table table-striped table-sm">
               <thead>
@@ -130,52 +137,48 @@
               </tbody>
             </table>
           </div>
-          <div id="submit-page" style="display: none;">
+          <div id="submit-page" style="display: none;" class="transaction-content">
             <h2>Ouvrir l'exploitation d'une ressource</h2>
-            <form>
+            <form id="submit-rights-form">
               <div class="form-group">
-                <label for="paperID">Resource ID</label>
-                <input type="text" class="form-control" id="resourceID">
+                <label for="resource_id">Resource ID</label>
+                <input type="text" class="form-control" id="resource_id" placeholder="Veuillez entrer un identifiant pour votre resource">
               </div>
               <div class="form-group">
-                <label for="paperID">Titre de la ressource</label>
-                <input type="text" class="form-control" id="resourceTitle">
+                <label for="resource_title">Titre de la ressource</label>
+                <input type="text" class="form-control" id="resource_title" placeholder="Quel est le titre de votre resource">
               </div>
               <div class="form-group">
-                <label for="paperID">Description de la ressource</label>
-                <input type="text" class="form-control" id="resourceDescription">
+                <label for="resource_description">Description de la ressource</label>
+                <input type="text" class="form-control" id="resource_description" placeholder="Quelle est la description de votre ressource">
               </div>
               <div class="form-group">
-                <label for="paperFaceValue">Valeur d'achat (en Euros)</label>
-                <input type="text" class="form-control" id="resourceValue">
+                <label for="resource_value">Valeur d'achat (en Euros)</label>
+                <input type="number" class="form-control" id="resource_value" placeholder="À quel prix souhaitez-vous ouvrir l'exploitation de votre ressource">
               </div>
               <div class="form-group">
-                <label for="paperIssuer">Nom de la compagnie emettrice</label>
-                <input type="text" class="form-control" id="resourceIssuer">
+                <label for="resource_issuer">Nom de la compagnie emettrice</label>
+                <input type="text" class="form-control" id="resource_issuer">
               </div>
-              <button id="SubmitInfo" class="btn btn-outline-primary">Soumettre la transaction</button>
+              <button id="submit-issue-transaction" class="btn btn-outline-primary">Soumettre la transaction</button>
             </form>
           </div>
 
-          <div id="redeem-page" style="display: none;">
+          <div id="redeem-page" style="display: none;" class="transaction-content">
             <h2>Racheter les droits d'une ressource</h2>
             <form>
               <div class="form-group">
-                <label for="paperID">Resource ID</label>
-                <input type="text" class="form-control" id="resourceID">
+                <label for="resourceID">Resource ID</label>
+                <input type="text" class="form-control" id="resourceID" placeholder="Entrez la référence de la transaction que vous souhaitez racheter">
               </div>
-              <button id="SubmitInfo" class="btn btn-outline-primary">Soumettre la transaction</button>
+              <button id="submit-redemm-transaction" class="btn btn-outline-primary">Soumettre la transaction</button>
             </form>
           </div>
         </main>
       </div>
 
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
     <script src="/javascripts/transaction_ME.js"></script>

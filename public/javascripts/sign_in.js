@@ -10,6 +10,7 @@ button[0].addEventListener('click', function(e) {
 Try_authentification = (e) => {
 
   e.preventDefault();
+  $("#error_message_login").hide()
   const ID = { 
     userName: $("#inputEmail").val(),
     userPass: $("#inputPassword").val(), 
