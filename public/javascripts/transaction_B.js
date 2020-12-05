@@ -14,7 +14,6 @@ Make_list = (data) => {
   }
 }
 
-
 $('#read-all').on("click", (event)=>{
   
   event.preventDefault();
@@ -48,6 +47,13 @@ $('#buy-resource').on("click", (event)=>{
   
 });
 
+$('#redeem-resource').on("click", (event)=>{
+  
+  event.preventDefault();
+  $(".transaction-content").hide();
+  $("#redeem-page").show();
+  
+});
 
 $('#sign-out').on("click",(event)=>{
 

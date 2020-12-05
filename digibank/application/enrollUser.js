@@ -31,7 +31,7 @@ async function main() {
         const userExists = await wallet.get('balaji');
         if (userExists) {
             console.log('An identity for the client user "balaji" already exists in the wallet');
-            return;
+            return; 
         }
 
         // Enroll the admin user, and import the new identity into the wallet.

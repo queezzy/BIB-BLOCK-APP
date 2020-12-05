@@ -132,15 +132,15 @@ class CommercialPaperContract extends Contract {
      * @param {String} redeemingOwner redeeming owner of paper
      * @param {String} redeemDateTime time paper was redeemed
     */
-    async redeem(ctx, issuer, paperNumber, redeemingOwner, redeemDateTime) {
+    async redeem(ctx, issuer, resourceID, redeemingOwner, redeemDateTime) {
 
-        let paperKey = CommercialPaper.makeKey([issuer, paperNumber]);
+        let resourceKey = CommercialPaper.makeKey([issuer, resourceID]);
 
-        let paper = await ctx.paperList.getPaper(paperKey);
+        let paper = await ctx.paperList.getPaper(resourceKey);
 
         // Check paper is not REDEEMED
         if (paper.isRedeemed()) {
-            throw new Error('Paper ' + issuer + paperNumber + ' already redeemed');
+            throw new Error('Paper ' + issuer + resourceID + ' already redeemed');
         }
 
         // Verify that the redeemer owns the commercial paper before redeeming it

@@ -10,7 +10,7 @@
   <title>Dashboard</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="/javascripts/jquery-3.5.1.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">
@@ -59,7 +59,13 @@
     <div class="row">
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
         <div class="sidebar-sticky pt-3">
-          <ul class="nav flex-column">
+          <ul class="nav flex-column mt-5">
+            <li class="nav-item">
+                <div class="">
+                  <span class="font-weight-bold" data-feather="home">Transactions disponibles</span>
+                </div>
+                <!--span class="sr-only">(current)</span-->
+            </li>
             <li class="nav-item">
               <a id="read-all" class=" nav-link left-menu-option" style="cursor:pointer;">
                 <div class="">
@@ -71,7 +77,15 @@
             <li class="nav-item">
               <a id="read-open" class=" nav-link left-menu-option" style="cursor:pointer;">
                 <div class="">
-                  <span data-feather="home">Voir les ressources ouvertes</span>
+                  <span  data-feather="home">Voir les ressources disponibles</span>
+                </div>
+                <!--span class="sr-only">(current)</span-->
+              </a>
+            </li>
+            <li class="nav-item">
+              <a id="read-mine" class=" nav-link left-menu-option" style="cursor:pointer;">
+                <div class="">
+                  <span  data-feather="home">Voir les ressources que j'exploite</span>
                 </div>
                 <!--span class="sr-only">(current)</span-->
               </a>
@@ -79,14 +93,14 @@
             <li class="nav-item">
               <a id="buy-resource" class="nav-link left-menu-option" style="cursor:pointer;">
                 <div>
-                  <span data-feather="file">Acheter des droits d'exploitation d'une ressource</span>
+                  <span data-feather="file">Acheter les droits d'exploitation d'une ressource</span>
                 </div>
               </a>
             </li>
             <li class="nav-item">
-              <a id="read-mine" class="nav-link left-menu-option" style="cursor:pointer;">
+              <a id="redeem-resource" class="nav-link left-menu-option" style="cursor:pointer;">
                 <div>
-                  <span data-feather="file">Voir les ressources que j'exploite</span>
+                  <span data-feather="file">Rétrocéder des droits à la maison d'édition</span>
                 </div>
               </a>
             </li>
@@ -99,8 +113,15 @@
             <h1>Bienvenue sur votre plateforme d'interaction avec la blockchain bib-block</h1>
             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
           </div>
-          <h5><span class="glyphicon glyphicon-arrow-left"></span>Veuillez choisir une transaction à effectuer dans le menu de gauche</h5>
-
+          <h5><span class="glyphicon glyphicon-arrow-left"></span>Veuillez choisir une transaction à effectuer dans le menu situé à votre gauche</h5>
+          <div id="error_message_transaction" class="alert alert-danger alert-dismissible mt-1 metadata-message" role="alert" style="display: none;"></div>
+          <div id="success_message_transaction" class="alert alert-success alert-dismissible mt-1 metadata-message" role="alert" style="display: none;"></div>
+          <div class="d-flex justify-content-center">
+            <div id="transaction-loader" class="spinner-border metadata-message" role="status" style="display: none;">
+              <span class="sr-only">Nous soumettons votre transaction...</span>
+            </div>
+          </div>
+          
           <div id="read-page" class="table-responsive transaction-content" style="display: none;">
             <h2>Les livres disponibles en ce moment</h2>
             <table id="table" class="table table-striped table-sm">
@@ -132,27 +153,32 @@
               </tbody>
             </table>
           </div>
-          <div id="buy-page" class="transaction-content" style="display: none;">
-            <h2>Ajouter un livre</h2>
+
+          <div id="buy-page" style="display: none;" class="transaction-content">
+            <h2>Racheter les droits d'une ressource</h2>
             <form>
               <div class="form-group">
-                <label for="paperID">Resource ID</label>
-                <input type="text" class="form-control" id="resourceID">
-                <input type="hidden" id="operation-type" name="operation-type" value="0">
+                <label for="resourceID">Resource ID</label>
+                <input type="text" class="form-control" id="resourceID" placeholder="Entrez la référence de la transaction que vous souhaitez racheter">
               </div>
-           
-              <button id="SubmitInfo" class="btn btn-outline-primary">Soumettre la transaction</button>
+              <button id="submit-redemm-transaction" class="btn btn-outline-primary">Soumettre la transaction</button>
+            </form>
+          </div>
+          <div id="redeem-page" style="display: none;" class="transaction-content">
+            <h2>Racheter les droits d'une ressource</h2>
+            <form>
+              <div class="form-group">
+                <label for="resourceID">Resource ID</label>
+                <input type="text" class="form-control" id="resourceID" placeholder="Entrez la référence de la transaction que vous souhaitez racheter">
+              </div>
+              <button id="submit-redemm-transaction" class="btn btn-outline-primary">Soumettre la transaction</button>
             </form>
           </div>
         </main>
       </div>
 
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
     <script src="/javascripts/transaction_B.js"></script>

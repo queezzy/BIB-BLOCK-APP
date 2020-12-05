@@ -31,7 +31,7 @@ class ReadApp {
 
     static async read_all_assets(){
 
-        let query = '{"selector": {"_id": {"$gt": null}}}'
+        let query = '{"selector": {"_id": {"$gt": null}} }'
 
         IssueApp.main(query).then((data) => {
 
