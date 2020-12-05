@@ -2,6 +2,7 @@ const { json } = require('body-parser');
 var express = require('express');
 var session = require('express-session')
 var issue_app = require('../magnetocorp/application/issue');
+var read_app = require('../magnetocorp/application/read');
 var router = express.Router();
 var authentication_utilities = require('../core/verify_authentification')
 
@@ -144,6 +145,22 @@ router.post('/submit',function(req, res, next) {
   
   });
 
+
+router.get('/all_publication',function(req,res,next) {
+
+  if(!req.session.username){
+    res.redirect("/sign_in");
+  }
+  read_app.read_all_assets().then(read_all_res=>{
+    if (read_all_res === -1){
+      res.json({"status":1,"message":"Erreur lors de la lecture du ledger"})
+    }
+    else {
+      res.json({"status":0,"message":"Votre transaction a bien été effectuée","data":read_all_res})
+    }
+  })
+
+});
   
 
 module.exports = router;
