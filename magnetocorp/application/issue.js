@@ -29,7 +29,7 @@ const CommercialPaper = require('../contract/lib/paper.js');
 class IssueApp {
 
 
-    static async main(transactionType,paperID,paperIssuer,paperFaceValue) {
+    static async issue_contract(transactionType,resourceID,resourceTitle,resourceDescription,resourceValue,resourceRightsIssuer) {
 
         // A wallet stores a collection of identities for use
         const wallet = await Wallets.newFileSystemWallet(path.join(CURRENT_DIR,'identity/user/isabella/wallet'));
@@ -80,22 +80,23 @@ class IssueApp {
             const maturationDate = d.getFullYear() + '-' +((''+month).length<2 ? '0' : '') + month 
                                     + '-' +((''+day).length<2 ? '0' : '') + day;
             
-            const issueResponse = await contract.submitTransaction(transactionType, paperIssuer, paperID, currentDate, maturationDate, paperFaceValue);
+            const issueResponse = await contract.submitTransaction(transactionType, resourceRightsIssuer, resourceID, resourceTitle,resourceDescription, resourceValue, currentDate, maturationDate);
     
             // process response
             console.log('Process issue transaction response.'+issueResponse);
     
-            let paper = CommercialPaper.fromBuffer(issueResponse);
+            let resource = CommercialPaper.fromBuffer(issueResponse);
             
-            console.log(`${paper.issuer} commercial paper : ${paper.paperNumber} successfully issued for value ${paper.faceValue}`);
+            console.log(`${resource.issuer} resource rights of : ${resource.resourceTitle} successfully issued for value ${resource.resourceValue}`);
             console.log('Transaction complete.');
 
-            return true
+            return 0;
 
         } catch (error) {
     
             console.log(`Error processing transaction. ${error}`);
             console.log(error.stack);
+            return 1;
     
         } finally {
     
@@ -106,27 +107,8 @@ class IssueApp {
         }
     }
 
-    static async issue_contract(transactionType,paperID,paperIssuer,paperFaceValue){
-
-        IssueApp.main(transactionType,paperID,paperIssuer,paperFaceValue).then(() => {
-
-            console.log('Issue program complete.');
-            return true;
-        
-        }).catch((e) => {
-        
-            console.log('Issue program exception.');
-            console.log(e);
-            console.log(e.stack);
-            process.exit(-1);
-        
-        });
-
-    }    
-
 
 }
 
-//IssueApp.issue_contract("issue","00002","GregCorp","10000")
+
 module.exports = IssueApp;
-// Main program function
