@@ -28,28 +28,10 @@ const CURRENT_DIR = path.join(process.cwd(), 'magnetocorp/');
 
 class ReadApp {
 
-
-    static async read_all_assets(){
+  
+    static async read_all_assets() {
 
         let query = '{"selector": {"_id": {"$gt": null}}}'
-
-        IssueApp.main(query).then((data) => {
-
-            console.log('Read program complete.');
-            return data;
-        
-        }).catch((e) => {
-        
-            console.log('Issue program exception.');
-            console.log(e);
-            console.log(e.stack);
-            process.exit(-1);
-        
-        });
-
-    }    
-
-    static async main(query) {
 
         // A wallet stores a collection of identities for use
         const wallet = await Wallets.newFileSystemWallet(path.join(CURRENT_DIR,'identity/user/isabella/wallet'));
@@ -104,11 +86,13 @@ class ReadApp {
             console.log('Transaction complete.');
 
             return json_data
+
     
         } catch (error) {
     
             console.log(`Error processing transaction. ${error}`);
             console.log(error.stack);
+            return -1
     
         } finally {
     
