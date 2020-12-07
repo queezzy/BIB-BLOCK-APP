@@ -38,7 +38,7 @@ Try_authentification = (e) => {
           console.log(data)
           if (data.username && data.role && data.redirect_url){
 
-            localStorage.setItem("bib_block_values",{"username":data.username,"role":data.role,"transaction_page":data.redirect_url})
+            localStorage.setItem("bib_block_values",JSON.stringify({"username":data.username,"role":data.role,"transaction_page":data.redirect_url}))
             console.log(localStorage.getItem("bib_block_values"))
             window.location.href = data.redirect_url
           }

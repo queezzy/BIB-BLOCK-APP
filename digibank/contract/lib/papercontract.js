@@ -59,15 +59,17 @@ class CommercialPaperContract extends Contract {
      *
      * @param {Context} ctx the transaction context
      * @param {String} issuer commercial paper issuer
-     * @param {Integer} paperNumber paper number for this issuer
-     * @param {String} issueDateTime paper issue date
+     * @param {Integer} resourceID resource ID number for this issuer
+     * @param {String} resourceTitle resource title
+     * @param {String} resourceDescription resource description
+     * @param {Integer} resourceValue the price to buy the rights to exploit a resource
+     * @param {String} issueDateTime resource rights issue date
      * @param {String} maturityDateTime paper maturity date
-     * @param {Integer} faceValue face value of paper
     */
-    async issue(ctx, issuer, paperNumber, issueDateTime, maturityDateTime, faceValue) {
+    async issue(ctx, issuer, resourceID, resourceTitle,resourceDescription, resourceValue, issueDateTime, maturityDateTime) {
 
         // create an instance of the paper
-        let paper = CommercialPaper.createInstance(issuer, paperNumber, issueDateTime, maturityDateTime, faceValue);
+        let paper = CommercialPaper.createInstance(issuer, resourceID, resourceTitle,resourceDescription, resourceValue, issueDateTime, maturityDateTime);
 
         // Smart contract, rather than paper, moves paper into ISSUED state
         paper.setIssued();
@@ -130,15 +132,15 @@ class CommercialPaperContract extends Contract {
      * @param {String} redeemingOwner redeeming owner of paper
      * @param {String} redeemDateTime time paper was redeemed
     */
-    async redeem(ctx, issuer, paperNumber, redeemingOwner, redeemDateTime) {
+    async redeem(ctx, issuer, resourceID, redeemingOwner, redeemDateTime) {
 
-        let paperKey = CommercialPaper.makeKey([issuer, paperNumber]);
+        let resourceKey = CommercialPaper.makeKey([issuer, resourceID]);
 
-        let paper = await ctx.paperList.getPaper(paperKey);
+        let paper = await ctx.paperList.getPaper(resourceKey);
 
         // Check paper is not REDEEMED
         if (paper.isRedeemed()) {
-            throw new Error('Paper ' + issuer + paperNumber + ' already redeemed');
+            throw new Error('Paper ' + issuer + resourceID + ' already redeemed');
         }
 
         // Verify that the redeemer owns the commercial paper before redeeming it
@@ -157,6 +159,11 @@ class CommercialPaperContract extends Contract {
         // Add the paper to the list of all similar commercial papers in the ledger world state
         let paper = await ctx.paperList.couchQuery(query);
         // Must return a serialized paper to caller of smart contract
+        return paper;
+    }
+
+    async Search_ledger(ctx,query) {
+        let paper = await ctx.paperList.couchSearch(query);
         return paper;
     }
 

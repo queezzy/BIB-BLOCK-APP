@@ -161,10 +161,10 @@ render_table=data=> {
     if (value.Record.currentState===1){
          etat = "ouvert"
     }
-    else if (value.Record.currentState===2){
+    if (value.Record.currentState===2){
          etat = "droits détenus par une librairie"
     }
-    else {
+    if (value.Record.currentState===3) {
          etat = "rétrocédés à la maison d'édition"
     }
     var row ="<td>"+value.Record.resourceID.toString()+'</td>"+"<td>'+value.Record.resourceTitle.toString()+'</td>"+"<td>'+value.Record.resourceDescription.toString()+'</td>"+"<td>'+value.Record.owner.toString()+'</td>"+"<td>'+value.Record.resourceValue.toString()+'</td>"+"<td>'+value.Record.issuer.toString()+'</td>"+"<td>'+value.Record.issueDateTime.toString()+'</td>"+"<td>'+value.Record.maturityDateTime.toString()+'</td>'+'</td>"+"<td>'+etat+'</td>'
