@@ -5,6 +5,8 @@ var issue_app = require('../magnetocorp/application/issue');
 var read_app = require('../magnetocorp/application/read');
 var buy_app = require('../digibank/application/buy')
 var redeem_app = require('../digibank/application/redeem')
+var read_app_lib = require('../digibank/application/read');
+var search_app_lib = require('../digibank/application/searchLedger');
 var router = express.Router();
 var authentication_utilities = require('../core/verify_authentification')
 
@@ -246,5 +248,26 @@ router.post('/redeem', function (req, res, next) {
 
 });
 
+router.post('/search',function(req, res, next) {
+  if(!req.session.username){
+    res.redirect("/sign_in")
+  }
+  
+  console.log(req.body);
+  resource = req.body
+  query = '{"selector": {"resourceTitle": "'+resource.resourceTitle.toString()+'"} }'
+  console.log(query)
+  console.log("hello")
+  if (req.session.role===USER_ROLE.LIB){
+    search_app_lib.search_assets(query).then(read_all_res=>{
+      if (read_all_res === -1){
+        res.json({"status":1,"message":"Erreur lors de la lecture du ledger"})
+      }
+      else {
+        res.json({"status":0,"message":"Votre transaction a bien été effectuée","data":read_all_res})
+      }
+    });
+  };
+});
 
 module.exports = router;
