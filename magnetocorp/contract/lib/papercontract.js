@@ -59,15 +59,17 @@ class CommercialPaperContract extends Contract {
      *
      * @param {Context} ctx the transaction context
      * @param {String} issuer commercial paper issuer
-     * @param {Integer} paperNumber paper number for this issuer
-     * @param {String} issueDateTime paper issue date
+     * @param {Integer} resourceID resource ID number for this issuer
+     * @param {String} resourceTitle resource title
+     * @param {String} resourceDescription resource description
+     * @param {Integer} resourceValue the price to buy the rights to exploit a resource
+     * @param {String} issueDateTime resource rights issue date
      * @param {String} maturityDateTime paper maturity date
-     * @param {Integer} faceValue face value of paper
     */
-    async issue(ctx, issuer, paperNumber, issueDateTime, maturityDateTime, faceValue) {
+    async issue(ctx, issuer, resourceID, resourceTitle,resourceDescription, resourceValue, issueDateTime, maturityDateTime) {
 
         // create an instance of the paper
-        let paper = CommercialPaper.createInstance(issuer, paperNumber, issueDateTime, maturityDateTime, faceValue);
+        let paper = CommercialPaper.createInstance(issuer, resourceID, resourceTitle,resourceDescription, resourceValue, issueDateTime, maturityDateTime);
 
         // Smart contract, rather than paper, moves paper into ISSUED state
         paper.setIssued();
@@ -172,7 +174,7 @@ class CommercialPaperContract extends Contract {
 
         // Check paper is not REDEEMED
         if (resource.isRedeemed()) {
-            throw new Error('Resource ' + resource_issuer + resource_id + ' déjà rétrocédée');
+            throw new Error('Ressource ' + resource_issuer + resource_id + ' déjà rétrocédée');
         }
 
         // Verify that the redeemer owns the commercial paper before redeeming it
@@ -193,6 +195,12 @@ class CommercialPaperContract extends Contract {
         // Must return a serialized paper to caller of smart contract
         return paper;
     }
+
+    async searchLedger(ctx,query) {
+        let paper = await ctx.paperList.couchSearch(query);
+        return paper;
+    }
+
 }
 
 module.exports = CommercialPaperContract;

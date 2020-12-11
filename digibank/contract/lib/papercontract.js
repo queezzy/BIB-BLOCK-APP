@@ -131,6 +131,9 @@ class CommercialPaperContract extends Contract {
         let resourceKey = CommercialPaper.makeKey([resource_issuer, resource_id]);
         let resource = await ctx.paperList.getPaper(resourceKey);
 
+        if(resource == null){
+            throw new Error("La ressource que vous avez référencée n'existe pas");
+        }
         if(resource_currentOwner == resource_newOwner){
             throw new Error("Vous ne pouvez pas acheter des ressources que vous possédez déjà"); 
         }
@@ -196,7 +199,7 @@ class CommercialPaperContract extends Contract {
         return paper;
     }
 
-    async Search_ledger(ctx,query) {
+    async searchLedger(ctx,query) {
         let paper = await ctx.paperList.couchSearch(query);
         return paper;
     }

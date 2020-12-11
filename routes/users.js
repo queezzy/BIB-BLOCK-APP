@@ -155,14 +155,31 @@ router.get('/all_publication', function (req, res, next) {
   if (!req.session.username) {
     res.redirect("/sign_in");
   }
-  read_app.read_all_assets().then(read_all_res => {
-    if (read_all_res === -1) {
-      res.json({ "status": 1, "message": "Erreur lors de la lecture du ledger" })
-    }
-    else {
-      res.json({ "status": 0, "message": "Votre transaction a bien été effectuée", "data": read_all_res })
-    }
-  })
+  if(req.session.role == USER_ROLE.LIB){
+
+    read_app_lib.read_all_assets().then(read_all_res => {
+      if (read_all_res === -1) {
+        res.json({ "status": 1, "message": "Erreur lors de la lecture du ledger" })
+      }
+      else {
+        res.json({ "status": 0, "message": "Votre transaction a bien été effectuée", "data": read_all_res })
+      }
+    })
+
+  }
+  if(req.session.role == USER_ROLE.MED){
+
+    read_app.read_all_assets().then(read_all_res => {
+      if (read_all_res === -1) {
+        res.json({ "status": 1, "message": "Erreur lors de la lecture du ledger" })
+      }
+      else {
+        res.json({ "status": 0, "message": "Votre transaction a bien été effectuée", "data": read_all_res })
+      }
+    })
+
+  }
+  
 
 });
 
@@ -237,7 +254,7 @@ router.post('/redeem', function (req, res, next) {
       }
       else {
         res.json({ "status": 1, "message": "Une erreur est survenue dans le traitement de votre transaction.Vérifier les éléments règles suivantes: "+
-                    "Le statut de la resource n'est pas en mode rétrocédé. Vous n'êtes pas déjà propriétaire de la ressource. Vous avez bien renseigné le propriétaire de la ressource et la maison d'édition qui l'a émise." });
+                    "Le statut de la resource n'est pas en mode rétrocédé. Vous possédez actuellement la ressource. Vous avez bien renseigné la maison d'édition qui a émis la ressource." });
       }
 
     });

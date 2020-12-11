@@ -59,13 +59,29 @@ submitRights = (e) => {
   e.preventDefault();
   $(".metadata-message").hide()
   $("#transaction-loader").show()
+  let session_variable = JSON.parse(window.localStorage.getItem("bib_block_values"))
   const resource = {
-    resource_id: $("#submit-page").find("#resource_id").val(),
-    resource_issuer: $("#submit-page").find("#resource_issuer").val(),
-    resource_title: $("#submit-page").find("#resource_title").val(),
-    resource_description: $("#submit-page").find("#resource_description").val(),
+    resource_id: $("#submit-page").find("#resource_id").val().trim(),
+    resource_issuer: session_variable.username,
+    resource_title: $("#submit-page").find("#resource_title").val().trim(),
+    resource_description: $("#submit-page").find("#resource_description").val().trim(),
     resource_value: $("#submit-page").find("#resource_value").val()
   }
+
+  if((resource.resource_id.length<3) || (resource.resource_title.length<3) || resource.resource_description.length<3
+    || resource.resource_value<1000 || (!resource.resource_id.match(/^[0-9]+$/)) ){
+
+
+    $("#error_message_transaction").show()
+    $("#error_message_transaction").text("Les données saisies sont invalides. Veuillez respecter les règles suivantes :"
+       + "\n Aucun champ texte ne doit être vide \n Chaque champ texte ne doit avoir une taille inférieure à 3"
+       + ". La valeur d'une ressource doit être supérieure ou égale à 1000€.  "
+       + "\n Uniquement les caractères alpha numériques sont autorisés pour le titre [0-9a-zA-Z_] et donc pas d'espace ni de caractère spéciaux. "
+       + "\n L'ID ne doit contenir que des caractères numériques");
+    $("#transaction-loader").hide()
+    return false
+
+  } 
   console.log(resource)
 
   $.ajax({
@@ -162,12 +178,17 @@ render_table=data=> {
          etat = "ouvert"
     }
     if (value.Record.currentState===2){
-         etat = "droits détenus par une librairie"
+         etat = "en exploitation"
     }
     if (value.Record.currentState===3) {
-         etat = "rétrocédés à la maison d'édition"
+         etat = "exploitation terminée"
     }
     var row ="<td>"+value.Record.resourceID.toString()+'</td>"+"<td>'+value.Record.resourceTitle.toString()+'</td>"+"<td>'+value.Record.resourceDescription.toString()+'</td>"+"<td>'+value.Record.owner.toString()+'</td>"+"<td>'+value.Record.resourceValue.toString()+'</td>"+"<td>'+value.Record.issuer.toString()+'</td>"+"<td>'+value.Record.issueDateTime.toString()+'</td>"+"<td>'+value.Record.maturityDateTime.toString()+'</td>'+'</td>"+"<td>'+etat+'</td>'
     div.append(row); 
     });
 };
+
+let user_session = JSON.parse(window.localStorage.getItem("bib_block_values"))
+if(user_session){
+  $("#biblock-active-user").text(user_session.username)
+}

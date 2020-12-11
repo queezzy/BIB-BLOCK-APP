@@ -72,7 +72,7 @@ class SearchApp {
     
             console.log('Submit  read transaction.');
             
-            const issueResponse = await contract.submitTransaction("Search_ledger",query);
+            const issueResponse = await contract.submitTransaction("searchLedger",query);
     
             // process response
             let json_data = JSON.parse(issueResponse.toString("utf8"));

@@ -43,7 +43,7 @@
 <body>
   <nav class="navbar navbar sticky-top bg flex-md-nowrap p-0 shadow" style="background: #080d4d;">
     <img src="/images/logo1.png" class="img-fluid" width="150px" height=150px alt="Responsive image">
-    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" style="color: white;" href="#">Company name</a>
+    <a id="biblock-active-user" class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" style="color: white;" href="#">Company</a>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
       data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -81,13 +81,6 @@
                 </div>
               </a>
             </li>
-            <li class="nav-item">
-              <a id="redeem-resource" class="nav-link left-menu-option" style="cursor:pointer;">
-                <div>
-                  <span data-feather="file">Racheter les droits d'une ressource</span>
-                </div>
-              </a>
-            </li>
           </ul>
         </div>
       </nav>
@@ -111,15 +104,15 @@
             <table id="table" class="table table-striped table-sm">
               <thead>
                 <tr>
-                  <th>Resource ID</th>
-                  <th>Resource Title</th>
-                  <th>Resource Description</th>
-                  <th>Resource Owner</th>
-                  <th>Resource Value</th>
-                  <th>Resource Issuer</th>
-                  <th>Resource Issued date</th>
-                  <th>Resource Maturity date</th>
-                  <th>Resource State</th>
+                  <th>ID</th>
+                  <th>Titre</th>
+                  <th>Description</th>
+                  <th>Exploitant</th>
+                  <th>Valeur(€)</th>
+                  <th>Propriétaire</th>
+                  <th>Date émission des droits</th>
+                  <th>Date d'expiration des droits</th>
+                  <th>Statut de la ressource</th>
                 </tr>
               </thead>
               <tbody id="mytable"> 
@@ -131,41 +124,25 @@
             <form id="submit-rights-form">
               <div class="form-group">
                 <label for="resource_id">Resource ID</label>
-                <input type="text" class="form-control" id="resource_id" placeholder="Veuillez entrer un identifiant pour votre resource">
+                <input type="text" class="form-control" id="resource_id" placeholder="Veuillez entrer un identifiant pour votre resource" required>
               </div>
               <div class="form-group">
                 <label for="resource_title">Titre de la ressource</label>
-                <input type="text" class="form-control" id="resource_title" placeholder="Quel est le titre de votre resource">
+                <input type="text" class="form-control" id="resource_title" placeholder="Quel est le titre de votre resource" required>
               </div>
               <div class="form-group">
                 <label for="resource_description">Description de la ressource</label>
-                <input type="text" class="form-control" id="resource_description" placeholder="Quelle est la description de votre ressource">
+                <input type="text" class="form-control" id="resource_description" placeholder="Quelle est la description de votre ressource" required>
               </div>
               <div class="form-group">
-                <label for="resource_value">Valeur d'achat (en Euros)</label>
-                <input type="number" class="form-control" min="0" id="resource_value" placeholder="À quel prix souhaitez-vous ouvrir l'exploitation de votre ressource">
-              </div>
-              <div class="form-group">
-                <label for="resource_issuer">Nom de la compagnie emettrice</label>
-                <input type="text" class="form-control" id="resource_issuer">
+                <label for="resource_value">Valeur d'achat(€)</label>
+                <input type="number" class="form-control" min="0" id="resource_value" placeholder="À quel prix souhaitez-vous ouvrir l'exploitation de votre ressource" required>
               </div>
               <button id="submit-issue-transaction" class="btn btn-outline-primary">Soumettre la transaction</button>
             </form>
           </div>
-
-          <div id="redeem-page" style="display: none;" class="transaction-content">
-            <h2>Racheter les droits d'une ressource</h2>
-            <form>
-              <div class="form-group">
-                <label for="resourceID">Resource ID</label>
-                <input type="text" class="form-control" id="resourceID" placeholder="Entrez la référence de la transaction que vous souhaitez racheter">
-              </div>
-              <button id="submit-redemm-transaction" class="btn btn-outline-primary">Soumettre la transaction</button>
-            </form>
-          </div>
         </main>
       </div>
-
     </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
