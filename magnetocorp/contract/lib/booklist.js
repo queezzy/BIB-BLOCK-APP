@@ -7,26 +7,26 @@
 'use strict';
 
 // Utility class for collections of ledger states --  a state list
-const StateList = require('./../ledger-api/statelist.js');
+const StateList = require('../ledger-api/statelist.js');
 
-const CommercialPaper = require('./paper.js');
+const BookResource = require('./book.js');
 
-class PaperList extends StateList {
+class BookList extends StateList {
 
     constructor(ctx) {
-        super(ctx, 'org.papernet.commercialpaperlist');
-        this.use(CommercialPaper);
+        super(ctx, 'org.ensimag.booklist');
+        this.use(BookResource);
     }
 
-    async addPaper(paper) {
+    async addBook(paper) {
         return this.addState(paper);
     }
 
-    async getPaper(paperKey) {
+    async getBook(paperKey) {
         return this.getState(paperKey);
     }
 
-    async updatePaper(paper) {
+    async updateBook(paper) {
         return this.updateState(paper);
     }
     async couchQuery(query){
@@ -39,4 +39,4 @@ class PaperList extends StateList {
 }
 
 
-module.exports = PaperList;
+module.exports = BookList;

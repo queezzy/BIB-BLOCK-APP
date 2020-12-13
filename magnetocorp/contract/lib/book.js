@@ -7,9 +7,9 @@
 'use strict';
 
 // Utility class for ledger state
-const State = require('./../ledger-api/state.js');
+const State = require('../ledger-api/state.js');
 
-// Enumerate commercial paper state values
+// Enumerate Book state values
 const cpState = {
     ISSUED: 1,
     TRADING: 2,
@@ -17,13 +17,13 @@ const cpState = {
 };
 
 /**
- * CommercialPaper class extends State class
+ * BookResource class extends State class
  * Class will be used by application and smart contract to define a paper
  */
-class CommercialPaper extends State {
+class BookResource extends State {
 
     constructor(obj) {
-        super(CommercialPaper.getClass(), [obj.issuer, obj.resourceID]);
+        super(BookResource.getClass(), [obj.issuer, obj.resourceID]);
         Object.assign(this, obj);
     }
 
@@ -47,7 +47,7 @@ class CommercialPaper extends State {
     }
 
     /**
-     * Useful methods to encapsulate commercial paper states
+     * Useful methods to encapsulate book states
      */
     setIssued() {
         this.currentState = cpState.ISSUED;
@@ -74,7 +74,7 @@ class CommercialPaper extends State {
     }
 
     static fromBuffer(buffer) {
-        return CommercialPaper.deserialize(buffer);
+        return BookResource.deserialize(buffer);
     }
 
     toBuffer() {
@@ -82,23 +82,23 @@ class CommercialPaper extends State {
     }
 
     /**
-     * Deserialize a state data to commercial paper
+     * Deserialize a state data to book 
      * @param {Buffer} data to form back into the object
      */
     static deserialize(data) {
-        return State.deserializeClass(data, CommercialPaper);
+        return State.deserializeClass(data, BookResource);
     }
 
     /**
-     * Factory method to create a commercial paper object
+     * Factory method to create a book object
      */
     static createInstance(issuer, resourceID, resourceTitle,resourceDescription, resourceValue, issueDateTime, maturityDateTime) {
-        return new CommercialPaper({ issuer, resourceID, resourceTitle,resourceDescription, resourceValue, issueDateTime, maturityDateTime});
+        return new BookResource({ issuer, resourceID, resourceTitle,resourceDescription, resourceValue, issueDateTime, maturityDateTime});
     }
 
     static getClass() {
-        return 'org.papernet.commercialpaper';
+        return 'org.ensimag.bibblockbook';
     }
 }
 
-module.exports = CommercialPaper;
+module.exports = BookResource;

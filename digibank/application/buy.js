@@ -20,7 +20,7 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { Wallets, Gateway } = require('fabric-network');
-const CommercialPaper = require('../../digibank/contract/lib/paper.js');
+const BookResource = require('../../digibank/contract/lib/book.js');
 const path = require('path');
 const CURRENT_DIR = path.join(process.cwd(), 'digibank/');
 
@@ -62,12 +62,12 @@ class BuyApp {
             const network = await gateway.getNetwork('mychannel');
     
             // Get addressability to commercial paper contract
-            console.log('Use org.papernet.commercialpaper smart contract.');
+            console.log('Use org.ensimag.bibblockbook smart contract.');
     
-            const contract = await network.getContract('papercontract', 'org.papernet.commercialpaper');
+            const contract = await network.getContract('bookcontract', 'org.ensimag.bibblockbook');
     
             // buy commercial paper
-            console.log('Submit commercial paper buy transaction.');
+            console.log('Submit book resource buy transaction.');
     
             const buyResponse = await contract.submitTransaction(transactionType, resource_issuer, resource_id, resource_currentOwner, resource_newOwner);
             
@@ -75,9 +75,8 @@ class BuyApp {
             // process response
             console.log('Process buy transaction response.');
     
-            let paper = CommercialPaper.fromBuffer(buyResponse);
-            console.log(paper)
-            //console.log(`${paper.issuer} commercial paper : ${paper.paperNumber} successfully purchased by ${paper.owner}`);
+            let resource = BookResource.fromBuffer(buyResponse);
+            console.log(resource)
             console.log('Transaction complete.');
 
             return 0;
@@ -99,5 +98,4 @@ class BuyApp {
 }
 
 module.exports = BuyApp;
-//BuyApp.buy_contract("buy","NCOE","54651","NCOE","TOTO")
 

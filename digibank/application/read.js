@@ -8,8 +8,8 @@
  * This application has 6 basic steps:
  * 1. Select an identity from a wallet
  * 2. Connect to network gateway
- * 3. Access PaperNet network
- * 4. Construct request to issue commercial paper
+ * 3. Access  network
+ * 4. Construct request to issue book resource
  * 5. Submit transaction
  * 6. Process response
  */
@@ -67,16 +67,16 @@ class ReadApp {
             const network = await gateway.getNetwork('mychannel');
     
             // Get addressability to commercial paper contract
-            console.log('Use org.papernet.commercialpaper smart contract.');
+            console.log('Use org.ensimag.bibblockbook smart contract.');
     
-            const contract = await network.getContract('papercontract');
+            const contract = await network.getContract('bookcontract');
     
             console.log('Submit  read transaction.');
             
-            const issueResponse = await contract.submitTransaction("readAll",query);
+            const readResponse = await contract.submitTransaction("readAll",query);
     
             // process response
-            let json_data = JSON.parse(issueResponse.toString("utf8"));
+            let json_data = JSON.parse(readResponse.toString("utf8"));
             
             /*Object.entries(json_data).forEach(
                 ([position,state]) => console.log(state.Record)

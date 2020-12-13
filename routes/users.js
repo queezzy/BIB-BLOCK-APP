@@ -236,7 +236,6 @@ router.post('/redeem', function (req, res, next) {
     res.json({ "status": 1, "message": "Votre role ne vous permet pas d'effectuer ce type de transaction" });
   } else {
 
-    console.log(req.body)
     resource = req.body
     resource_id = resource.resource_id;
     resource_issuer = resource.resource_issuer;

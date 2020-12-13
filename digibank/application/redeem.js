@@ -20,7 +20,7 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { Wallets, Gateway } = require('fabric-network');
-const CommercialPaper = require('../contract/lib/paper.js');
+const BookResource = require('../contract/lib/book.js');
 const path = require('path');
 const CURRENT_DIR = path.join(process.cwd(), 'digibank/');
 
@@ -63,9 +63,9 @@ class RedeemApp{
       const network = await gateway.getNetwork('mychannel');
   
       // Get addressability to commercial paper contract
-      console.log('Use org.papernet.commercialpaper smart contract.');
+      console.log('Use org.ensimag.bibblockbook smart contract.');
   
-      const contract = await network.getContract('papercontract', 'org.papernet.commercialpaper');
+      const contract = await network.getContract('bookcontract', 'org.ensimag.bibblockbook');
   
       // redeem commercial paper
       console.log('Submit commercial paper redeem transaction.');
@@ -75,9 +75,8 @@ class RedeemApp{
       // process response
       console.log('Process redeem transaction response.');
   
-      let paper = CommercialPaper.fromBuffer(redeemResponse);
-      console.log(paper)
-      //console.log(`${paper.issuer} commercial paper : ${paper.paperNumber} successfully redeemed with ${paper.owner}`);
+      let resource = BookResource.fromBuffer(redeemResponse);
+      console.log(resource)
       console.log('Transaction complete.');
 
       return 0;
@@ -102,5 +101,3 @@ class RedeemApp{
 // Main program function
 
 module.exports = RedeemApp;
-
-//RedeemApp.redeem_contract("redeem","NCOE","54651","TOTO")

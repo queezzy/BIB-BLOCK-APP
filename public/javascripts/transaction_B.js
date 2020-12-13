@@ -169,7 +169,7 @@ redeemRights = (e) => {
 
   const resource = {
     resource_id: $("#redeem-page").find("#resource-id").val().trim().toUpperCase(),
-    resource_issuer: $("#redeem-page").find("#resource-issuer").val().trim().toUpperCase()
+    resource_issuer: $("#redeem-page").find("#resource-issuer").val().trim()
   }
 
   if((resource.resource_id.length<3) ||  resource.resource_issuer.length<3 || (!resource.resource_id.match(/^[0-9]+$/)) ){

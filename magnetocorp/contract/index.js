@@ -6,5 +6,5 @@
 
 'use strict';
 
-const cpcontract = require('./lib/papercontract.js');
+const cpcontract = require('./lib/bookcontract.js');
 module.exports.contracts = [cpcontract];

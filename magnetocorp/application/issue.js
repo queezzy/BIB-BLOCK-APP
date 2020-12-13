@@ -24,7 +24,7 @@ const path = require('path');
 const CURRENT_DIR = path.join(process.cwd(), 'magnetocorp/');
 
 //const CURRENT_DIR = path.join("/home/franck/Documents/code/bib-block-app/",'magnetocorp/');
-const CommercialPaper = require('../contract/lib/paper.js');
+const BookResource = require('../contract/lib/book.js');
 
 class IssueApp {
 
@@ -65,9 +65,9 @@ class IssueApp {
             const network = await gateway.getNetwork('mychannel');
     
             // Get addressability to commercial paper contract
-            console.log('Use org.papernet.commercialpaper smart contract.');
+            console.log('Use org.ensimag.bibblockbook smart contract.');
     
-            const contract = await network.getContract('papercontract');
+            const contract = await network.getContract('bookcontract');
     
             // issue commercial paper
             console.log('Submit commercial paper issue transaction.');
@@ -85,7 +85,7 @@ class IssueApp {
             // process response
             console.log('Process issue transaction response.'+issueResponse);
     
-            let resource = CommercialPaper.fromBuffer(issueResponse);
+            let resource = BookResource.fromBuffer(issueResponse);
             
             console.log(`${resource.issuer} resource rights of : ${resource.resourceTitle} successfully issued for value ${resource.resourceValue}`);
             console.log('Transaction complete.');
