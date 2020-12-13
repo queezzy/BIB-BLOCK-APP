@@ -137,10 +137,10 @@ class BookResourceContract extends Contract {
      * Redeem commercial paper
      *
      * @param {Context} ctx the transaction context
-     * @param {String} issuer commercial paper issuer
+     * @param {String} issuer book resource issuer
      * @param {Integer} paperNumber paper number for this issuer
-     * @param {String} redeemingOwner redeeming owner of paper
-     * @param {String} redeemDateTime time paper was redeemed
+     * @param {String} redeemingOwner redeeming owner of book
+     * @param {String} redeemDateTime time book was redeemed
     */
     async redeem(ctx, resource_issuer, resource_id, redeemingOwner) {
 

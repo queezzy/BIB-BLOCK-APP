@@ -271,9 +271,7 @@ router.post('/search',function(req, res, next) {
   
   console.log(req.body);
   resource = req.body
-  query = '{"selector": {"resourceTitle": "'+resource.resourceTitle.toString()+'"} }'
-  console.log(query)
-  console.log("hello")
+  query = '{"selector": {"resourceTitle": {"$regex":"(?i)'+resource.resourceTitle.toString()+'"} }}'
   if (req.session.role===USER_ROLE.LIB){
     search_app_lib.search_assets(query).then(read_all_res=>{
       if (read_all_res === -1){
