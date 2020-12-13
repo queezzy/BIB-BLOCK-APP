@@ -22,7 +22,7 @@ const yaml = require('js-yaml');
 const { Wallets, Gateway } = require('fabric-network');
 const BookResource = require('../contract/lib/book.js');
 const path = require('path');
-const CURRENT_DIR = path.join(process.cwd(), 'digibank/');
+const CURRENT_DIR = path.join(process.cwd(), 'organization/bibliotheque/');
 
 class RedeemApp{
 

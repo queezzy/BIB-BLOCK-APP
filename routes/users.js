@@ -1,13 +1,13 @@
 const { json } = require('body-parser');
 var express = require('express');
 var session = require('express-session')
-var issue_app = require('../magnetocorp/application/issue');
-var read_app = require('../magnetocorp/application/read');
-var buy_app = require('../digibank/application/buy')
-var redeem_app = require('../digibank/application/redeem')
-var read_app_lib = require('../digibank/application/read');
-var search_app_lib = require('../digibank/application/searchLedger');
-var search_app_med = require('../magnetocorp/application/searchLedger');
+var issue_app = require('../organization/maison_edition/application/issue');
+var read_app = require('../organization/maison_edition/application/read');
+var buy_app = require('../organization/bibliotheque/application/buy')
+var redeem_app = require('../organization/bibliotheque/application/redeem')
+var read_app_lib = require('../organization/bibliotheque/application/read');
+var search_app_lib = require('../organization/bibliotheque/application/searchLedger');
+var search_app_med = require('../organization/maison_edition/application/searchLedger');
 var router = express.Router();
 var authentication_utilities = require('../core/verify_authentification')
 

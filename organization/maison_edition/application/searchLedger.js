@@ -21,15 +21,16 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 const { Wallets, Gateway } = require('fabric-network');
 const path = require('path');
-const CURRENT_DIR = path.join(process.cwd(), 'magnetocorp/');
+const CURRENT_DIR = path.join(process.cwd(), 'organization/maison_edition/');
 
 //const CURRENT_DIR = path.join("/home/franck/Documents/code/bib-block-app/",'magnetocorp/');
-const BookResource = require('../contract/lib/book.js');
+//const CommercialPaper = require('../contract/lib/paper.js');
 
-class IssueApp {
+class SearchApp {
 
+  
+    static async search_assets(query) {
 
-    static async issue_contract(transactionType,resourceID,resourceTitle,resourceDescription,resourceValue,resourceRightsIssuer) {
 
         // A wallet stores a collection of identities for use
         const wallet = await Wallets.newFileSystemWallet(path.join(CURRENT_DIR,'identity/user/isabella/wallet'));
@@ -65,38 +66,32 @@ class IssueApp {
             const network = await gateway.getNetwork('mychannel');
     
             // Get addressability to commercial paper contract
-            console.log('Use org.ensimag.bibblockbook smart contract.');
+            console.log('Use org.ensimag.bibblockbook  smart contract.');
     
             const contract = await network.getContract('bookcontract');
     
-            // issue commercial paper
-            console.log('Submit commercial paper issue transaction.');
-    
-            let d = new Date(); let month = d.getMonth()+1; let day = d.getDate();
-            const currentDate = d.getFullYear() + '-' +((''+month).length<2 ? '0' : '') + month 
-                                    + '-' +((''+day).length<2 ? '0' : '') + day;
-        
-            d.setDate(d.getDate()+60); month = d.getMonth()+1; day = d.getDate()
-            const maturationDate = d.getFullYear() + '-' +((''+month).length<2 ? '0' : '') + month 
-                                    + '-' +((''+day).length<2 ? '0' : '') + day;
+            console.log('Submit  read transaction.');
             
-            const issueResponse = await contract.submitTransaction(transactionType, resourceRightsIssuer, resourceID, resourceTitle,resourceDescription, resourceValue, currentDate, maturationDate);
+            const issueResponse = await contract.submitTransaction("searchLedger",query);
     
             // process response
-            console.log('Process issue transaction response.'+issueResponse);
-    
-            let resource = BookResource.fromBuffer(issueResponse);
+            let json_data = JSON.parse(issueResponse.toString("utf8"));
             
-            console.log(`${resource.issuer} resource rights of : ${resource.resourceTitle} successfully issued for value ${resource.resourceValue}`);
+            /*Object.entries(json_data).forEach(
+                ([position,state]) => console.log(state.Record)
+            );*/
+
+    
             console.log('Transaction complete.');
 
-            return 0;
+            return json_data
 
+    
         } catch (error) {
     
             console.log(`Error processing transaction. ${error}`);
             console.log(error.stack);
-            return 1;
+            return -1
     
         } finally {
     
@@ -107,8 +102,6 @@ class IssueApp {
         }
     }
 
-
 }
 
-
-module.exports = IssueApp;
+module.exports = SearchApp;

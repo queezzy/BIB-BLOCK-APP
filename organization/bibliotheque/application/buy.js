@@ -9,7 +9,7 @@
  * 1. Select an identity from a wallet
  * 2. Connect to network gateway
  * 3. Access PaperNet network
- * 4. Construct request to issue commercial paper
+ * 4. Construct request to buy commercial paper
  * 5. Submit transaction
  * 6. Process response
  */
@@ -20,17 +20,13 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { Wallets, Gateway } = require('fabric-network');
+const BookResource = require('../contract/lib/book.js');
 const path = require('path');
-const CURRENT_DIR = path.join(process.cwd(), 'digibank/');
+const CURRENT_DIR = path.join(process.cwd(), 'organization/bibliotheque/');
 
-//const CURRENT_DIR = path.join("/home/franck/Documents/code/bib-block-app/",'magnetocorp/');
-//const CommercialPaper = require('../contract/lib/paper.js');
+class BuyApp {
 
-class SearchApp {
-
-  
-    static async search_assets(query) {
-
+    static async buy_contract (transactionType,resource_issuer,resource_id,resource_currentOwner,resource_newOwner) {
 
         // A wallet stores a collection of identities for use
         const wallet = await Wallets.newFileSystemWallet(path.join(CURRENT_DIR,'identity/user/balaji/wallet'));
@@ -42,17 +38,17 @@ class SearchApp {
         try {
     
             // Specify userName for network access
-            // const userName = 'isabella.issuer@magnetocorp.com';
             const userName = 'balaji';
     
             // Load connection profile; will be used to locate a gateway
-            console.log(process.cwd())
             let connectionProfile = yaml.safeLoad(fs.readFileSync(path.join(CURRENT_DIR,'gateway/connection-org1.yaml'),'utf8'));
+    
             // Set connection options; identity and wallet
             let connectionOptions = {
                 identity: userName,
                 wallet: wallet,
-                discovery: { enabled:true, asLocalhost: true }
+                discovery: { enabled: true, asLocalhost: true }
+    
             };
     
             // Connect to gateway using application specified parameters
@@ -66,32 +62,30 @@ class SearchApp {
             const network = await gateway.getNetwork('mychannel');
     
             // Get addressability to commercial paper contract
-            console.log('Use org.ensimag.bibblockbook  smart contract.');
+            console.log('Use org.ensimag.bibblockbook smart contract.');
     
-            const contract = await network.getContract('bookcontract');
+            const contract = await network.getContract('bookcontract', 'org.ensimag.bibblockbook');
     
-            console.log('Submit  read transaction.');
+            // buy commercial paper
+            console.log('Submit book resource buy transaction.');
+    
+            const buyResponse = await contract.submitTransaction(transactionType, resource_issuer, resource_id, resource_currentOwner, resource_newOwner);
             
-            const issueResponse = await contract.submitTransaction("searchLedger",query);
-    
-            // process response
-            let json_data = JSON.parse(issueResponse.toString("utf8"));
-            
-            /*Object.entries(json_data).forEach(
-                ([position,state]) => console.log(state.Record)
-            );*/
 
+            // process response
+            console.log('Process buy transaction response.');
     
+            let resource = BookResource.fromBuffer(buyResponse);
+            console.log(resource)
             console.log('Transaction complete.');
 
-            return json_data
-
+            return 0;
     
         } catch (error) {
-    
+            
+            return 1
             console.log(`Error processing transaction. ${error}`);
             console.log(error.stack);
-            return -1
     
         } finally {
     
@@ -101,7 +95,7 @@ class SearchApp {
     
         }
     }
-
 }
 
-module.exports = SearchApp;
+module.exports = BuyApp;
+

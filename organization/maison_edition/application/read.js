@@ -9,7 +9,7 @@
  * 1. Select an identity from a wallet
  * 2. Connect to network gateway
  * 3. Access PaperNet network
- * 4. Construct request to issue commercial paper
+ * 4. Construct request to issue book resource
  * 5. Submit transaction
  * 6. Process response
  */
@@ -21,16 +21,17 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 const { Wallets, Gateway } = require('fabric-network');
 const path = require('path');
-const CURRENT_DIR = path.join(process.cwd(), 'magnetocorp/');
+const CURRENT_DIR = path.join(process.cwd(), 'organization/maison_edition/');
 
 //const CURRENT_DIR = path.join("/home/franck/Documents/code/bib-block-app/",'magnetocorp/');
 //const CommercialPaper = require('../contract/lib/paper.js');
 
-class SearchApp {
+class ReadApp {
 
   
-    static async search_assets(query) {
+    static async read_all_assets() {
 
+        let query = '{"selector": {"_id": {"$gt": null}} }'
 
         // A wallet stores a collection of identities for use
         const wallet = await Wallets.newFileSystemWallet(path.join(CURRENT_DIR,'identity/user/isabella/wallet'));
@@ -72,16 +73,11 @@ class SearchApp {
     
             console.log('Submit  read transaction.');
             
-            const issueResponse = await contract.submitTransaction("searchLedger",query);
+            const issueResponse = await contract.submitTransaction("readAll",query);
     
             // process response
             let json_data = JSON.parse(issueResponse.toString("utf8"));
-            
-            /*Object.entries(json_data).forEach(
-                ([position,state]) => console.log(state.Record)
-            );*/
-
-    
+ 
             console.log('Transaction complete.');
 
             return json_data
@@ -104,4 +100,4 @@ class SearchApp {
 
 }
 
-module.exports = SearchApp;
+module.exports = ReadApp;
