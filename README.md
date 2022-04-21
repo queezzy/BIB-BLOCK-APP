@@ -4,9 +4,9 @@
 
 ## CONTRIBUTORS
 
-* KATERINA V.
-* GREGORY S. 
 * FRANCK N.   https://github.com/queezzy/
+* GREGORY S. 
+* KATERINA V.
 
 ## NOTE TO CONTRIBUTORS
 
